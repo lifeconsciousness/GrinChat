@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Unbounded&display=swap');
+
+@import './css/mixins';
+@import './css/login-page';
+
+body {
+  overflow: hidden;
+
+  font-family: 'Unbounded', cursive !important;
+  // font-family: 'Chivo Mono', monospace;
+
+  // font-size: clamp(28px, 16px + 1vw, 40px); //responsive font size
+  //breakpoints: 672/990/1296 px = 42/61,875/81 em
+}

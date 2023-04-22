@@ -1,0 +1,55 @@
+@use './var';
+
+.login-page {
+  @include screen-size;
+  gap: 1em;
+
+  background-color: var.$main-black;
+
+  color: white;
+}
+
+.logo-text {
+  position: relative;
+  top: 10px;
+  left: 15px;
+  font-size: 1.3em;
+}
+
+.grin {
+  font-size: 120%;
+  margin-left: 4px;
+}
+
+.main-container {
+  @include flex-centre;
+  height: 90vh;
+}
+
+.login-signup {
+  width: 500px;
+  height: 300px;
+  border-radius: 5%;
+
+  //   background-color: var.$main-purple;
+  //   background: linear-gradient(124deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3);
+  background: linear-gradient(124deg, #ff2400, #e81d1d, #e8b71d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3);
+  background-size: 1900% 1900%;
+  animation: rainbowAnim 90s ease infinite;
+
+  @keyframes rainbowAnim {
+    0% {
+      background-position: 0% 82%;
+    }
+    50% {
+      background-position: 100% 19%;
+    }
+    100% {
+      background-position: 0% 82%;
+    }
+  }
+
+  .tab-indicator {
+    background-color: rgb(255, 255, 255);
+  }
+}
