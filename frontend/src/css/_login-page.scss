@@ -63,6 +63,7 @@
   gap: 0.6em;
   margin-top: 1em;
   min-height: 220px;
+  overflow: hidden;
 
   input {
     height: 34px;
@@ -120,4 +121,80 @@
   display: flex;
   flex-direction: column;
   gap: 0.6em;
+}
+
+.seconary-inputs {
+  // animation: appearLeftAnimation 0.7s forwards;
+  animation: appearRightAnimation 0.7s forwards;
+}
+
+@keyframes appearLeftAnimation {
+  0% {
+    transform: translateX(-60px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.first-inputs {
+  // animation: appearRightAnimation 0.7s forwards;
+  animation: appearLeftAnimation 0.7s forwards;
+}
+
+@keyframes appearRightAnimation {
+  0% {
+    transform: translateX(60px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+//error message
+
+.popup-message {
+  position: absolute;
+  min-width: 12em;
+  min-height: 2.4em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // background-color: var.$main-white;
+  background-color: rgb(209, 64, 64);
+  color: black;
+  font-size: 0.8em;
+  padding: 5px;
+  border-radius: 20px;
+  left: 0;
+  right: 0;
+  bottom: 0em;
+  margin: 0 auto;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(130px);
+  opacity: 0;
+}
+
+.popup-animation {
+  animation: popupBottom 6s;
+}
+
+@keyframes popupBottom {
+  0% {
+    opacity: 0;
+  }
+  14% {
+    opacity: 1;
+    transform: translateY(90px);
+  }
+  86% {
+    opacity: 1;
+    transform: translateY(90px);
+  }
+  100% {
+    opacity: 0;
+  }
 }

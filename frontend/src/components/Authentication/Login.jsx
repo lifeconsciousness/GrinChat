@@ -52,7 +52,15 @@ function Login() {
         <button type="button" onClick={handleLogin}>
           Login
         </button>
-        <button type="button">Log in as a guest</button>
+        <button
+          type="button"
+          onClick={() => {
+            setEmail('guest@example.com')
+            setPassword('guestpassword123')
+          }}
+        >
+          Log in as a guest
+        </button>
       </div>
     </div>
   )

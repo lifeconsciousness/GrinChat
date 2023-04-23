@@ -3,52 +3,93 @@ import { Button, InputGroup, Input, FormControl, InputRightElement, FormLabel, C
 import { Form } from 'react-router-dom'
 
 function Signup() {
-  const [email, setEmail] = useState()
-  const [password, setPassword] = useState()
-  const [show, setShow] = useState(false)
-  const [confirmPassword, setConfirmPassword] = useState()
-
-  const [name, setName] = useState()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [name, setName] = useState('')
   const [picture, setPicture] = useState()
+
+  const [show, setShow] = useState(false)
   const [isFirstInputs, setIsFirstInputs] = useState(true)
+  const [firstTime, setFirstTime] = useState(true)
+
+  const isValidEmail = (email) => {
+    // use a regular expression to validate email format
+    var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return regex.test(email)
+  }
 
   const handleShowBtn = () => {
     setShow(!show)
   }
 
+  const [errorText, setErrorText] = useState('')
+  const [activeErrorMessage, setActiveErrorMessage] = useState(false)
+
+  const showError = () => {
+    setActiveErrorMessage(!activeErrorMessage)
+
+    setTimeout(() => {
+      setErrorText('')
+      setActiveErrorMessage(!activeErrorMessage)
+    }, 4000)
+  }
+
   const handleNextBtn = () => {
-    setIsFirstInputs(!isFirstInputs)
+    // console.log(isFirstInputs, password, confirmPassword)
+
+    if (isFirstInputs) {
+      if (!isValidEmail(email)) {
+        setErrorText((prevMessages) => prevMessages + ' your mail is not valid \n')
+        showError()
+      }
+      if (password !== confirmPassword) {
+        setErrorText((prevMessages) => prevMessages + ' password and confirm passwords must be identical \n')
+        showError()
+      }
+      if (password.length < 8) {
+        setErrorText((prevMessages) => prevMessages + ' password must be longet than 8 characters \n')
+        showError()
+      }
+      if (password === confirmPassword && password !== '' && password.length > 8 && isValidEmail(email)) {
+        setIsFirstInputs(!isFirstInputs)
+      }
+    } else if (!isFirstInputs) {
+      setIsFirstInputs(!isFirstInputs)
+      setFirstTime(false)
+    }
   }
 
   const handlePictureUpload = (pictures) => {}
-  const handleSubmit = () => {}
+  const handleSubmit = () => {
+    console.log(email, password, name)
+  }
 
   return (
     <div className="signup-login-form">
       {isFirstInputs ? (
         <>
-          <FormControl id="email">
+          <FormControl id="email" className={firstTime ? '' : 'first-inputs'}>
             <Input
               type="email"
-              // className="form-input"
               name="email-input"
               placeholder="Enter your email"
               required
+              value={email}
               onChange={(e) => {
                 setEmail(e.target.value)
               }}
             />
           </FormControl>
 
-          <FormControl id="password">
+          <FormControl id="password" className={firstTime ? '' : 'first-inputs'}>
             <InputGroup>
               <Input
-                // variant="unstyled"
-                // className="form-input"
                 type={show ? 'text' : 'password'}
                 name="password-input"
                 placeholder="Enter your password"
                 required
+                value={password}
                 onChange={(e) => {
                   setPassword(e.target.value)
                 }}
@@ -61,32 +102,35 @@ function Signup() {
             </InputGroup>
           </FormControl>
 
-          <FormControl id="confirmPassword">
+          <FormControl id="confirmPassword" className={firstTime ? '' : 'first-inputs'}>
             <Input
               type={show ? 'text' : 'password'}
-              // className="form-input"
               name="confirm-password-input"
               placeholder="Confirm your password"
               required
+              value={confirmPassword}
+              onChange={(e) => {
+                setConfirmPassword(e.target.value)
+              }}
             />
           </FormControl>
         </>
       ) : (
         <>
-          <FormControl id="name">
+          <FormControl id="name" className="seconary-inputs">
             <Input
               type="text"
-              // className="form-input"
               name="name-input"
               placeholder="Enter your name"
               required
+              value={name}
               onChange={(e) => {
                 setName(e.target.value)
               }}
             />
           </FormControl>
 
-          <FormControl id="picture">
+          <FormControl id="picture" className="seconary-inputs">
             <Center>
               <FormLabel>Upload your profile photo (optional)</FormLabel>
             </Center>
@@ -111,6 +155,10 @@ function Signup() {
           {isFirstInputs ? 'Next' : 'Back'}
         </button>
         {!isFirstInputs ? <button onClick={handleSubmit}>Submit</button> : ''}
+      </div>
+
+      <div className={activeErrorMessage ? 'popup-message popup-animation' : 'popup-message'}>
+        <p>{errorText}</p>
       </div>
     </div>
   )
