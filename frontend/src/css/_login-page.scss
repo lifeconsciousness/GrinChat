@@ -3,6 +3,7 @@
 .login-page {
   @include screen-size;
   gap: 1em;
+  overflow: hidden;
 
   background-color: var.$main-black;
 
@@ -162,9 +163,9 @@
   justify-content: center;
   // background-color: var.$main-white;
   background-color: rgb(209, 64, 64);
-  color: black;
+  color: rgb(255, 251, 251);
   font-size: 0.8em;
-  padding: 5px;
+  padding: 14px;
   border-radius: 20px;
   left: 0;
   right: 0;
@@ -174,12 +175,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: translateY(130px);
+  transform: translateY(200px);
   opacity: 0;
 }
 
 .popup-animation {
-  animation: popupBottom 6s;
+  animation: popupBottom 4s;
 }
 
 @keyframes popupBottom {
@@ -188,11 +189,11 @@
   }
   14% {
     opacity: 1;
-    transform: translateY(90px);
+    transform: translateY(130px);
   }
   86% {
     opacity: 1;
-    transform: translateY(90px);
+    transform: translateY(130px);
   }
   100% {
     opacity: 0;

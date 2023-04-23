@@ -13,12 +13,13 @@ function Signup() {
   const [isFirstInputs, setIsFirstInputs] = useState(true)
   const [firstTime, setFirstTime] = useState(true)
 
+  // use a regular expression to validate email format
   const isValidEmail = (email) => {
-    // use a regular expression to validate email format
     var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     return regex.test(email)
   }
 
+  //password show
   const handleShowBtn = () => {
     setShow(!show)
   }
@@ -27,29 +28,36 @@ function Signup() {
   const [activeErrorMessage, setActiveErrorMessage] = useState(false)
 
   const showError = () => {
-    setActiveErrorMessage(!activeErrorMessage)
+    setActiveErrorMessage(true)
 
     setTimeout(() => {
-      setErrorText('')
-      setActiveErrorMessage(!activeErrorMessage)
+      setActiveErrorMessage(false)
     }, 4000)
   }
 
   const handleNextBtn = () => {
-    // console.log(isFirstInputs, password, confirmPassword)
+    setErrorText('')
 
     if (isFirstInputs) {
       if (!isValidEmail(email)) {
-        setErrorText((prevMessages) => prevMessages + ' your mail is not valid \n')
-        showError()
+        setErrorText((prevMessages) => prevMessages + `Your mail is not valid.`)
+        if (!activeErrorMessage) {
+          showError()
+        }
       }
       if (password !== confirmPassword) {
-        setErrorText((prevMessages) => prevMessages + ' password and confirm passwords must be identical \n')
-        showError()
+        setErrorText((prevMessages) => prevMessages + ' Password and confirm password do not match. \n')
+        if (!activeErrorMessage) {
+          showError()
+        }
       }
-      if (password.length < 8) {
-        setErrorText((prevMessages) => prevMessages + ' password must be longet than 8 characters \n')
-        showError()
+      if (password.length < 8 || password.length > 64) {
+        setErrorText(
+          (prevMessages) => prevMessages + ' Password must be longer than 8 characters and shorter than 64 \n'
+        )
+        if (!activeErrorMessage) {
+          showError()
+        }
       }
       if (password === confirmPassword && password !== '' && password.length > 8 && isValidEmail(email)) {
         setIsFirstInputs(!isFirstInputs)
@@ -61,8 +69,18 @@ function Signup() {
   }
 
   const handlePictureUpload = (pictures) => {}
+
   const handleSubmit = () => {
-    console.log(email, password, name)
+    setErrorText('')
+    if (name.length < 1 || name.length > 32) {
+      setErrorText((prevMessages) => prevMessages + ' Name must be longer than 8 characters and shorter than 32 \n')
+      if (!activeErrorMessage) {
+        showError()
+      }
+    } else {
+      //submit operation
+      console.log(email, password, name)
+    }
   }
 
   return (
