@@ -15,7 +15,7 @@ function Login() {
 
   return (
     <div className="signup-login-form">
-      <div className="login-inputs">
+      <div className="login-inputs seconary-inputs">
         <FormControl id="email-login">
           <Input
             type="email"
@@ -28,7 +28,7 @@ function Login() {
           />
         </FormControl>
 
-        <FormControl id="password-login">
+        <FormControl id="password-login ">
           <InputGroup>
             <Input
               type={show ? 'text' : 'password'}
