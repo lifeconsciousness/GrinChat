@@ -2,16 +2,47 @@ import React, { useState } from 'react'
 import { FormControl, InputGroup, Input, InputRightElement } from '@chakra-ui/react'
 
 function Login() {
-  const [email, setEmail] = useState()
-  const [password, setPassword] = useState()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
+  //show password button
   const [show, setShow] = useState(false)
-
   const handleShowBtn = () => {
     setShow(!show)
   }
 
-  const handleLogin = () => {}
+  //error handling
+  const [errorText, setErrorText] = useState('')
+  const [activeErrorMessage, setActiveErrorMessage] = useState(false)
+
+  const showError = () => {
+    setActiveErrorMessage(true)
+
+    setTimeout(() => {
+      setActiveErrorMessage(false)
+    }, 4000)
+  }
+
+  const isValidEmail = (email) => {
+    var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return regex.test(email)
+  }
+
+  //handle click on login button
+  const handleLogin = () => {
+    setErrorText('')
+
+    //password validation here
+    if (!isValidEmail(email)) {
+      setErrorText((prevMessages) => prevMessages + ` Your email or password is not valid.`)
+      if (!activeErrorMessage) {
+        showError()
+      }
+    } else {
+      //login operation
+      console.log('login')
+    }
+  }
 
   return (
     <div className="signup-login-form">
@@ -50,7 +81,7 @@ function Login() {
 
       <div className="btn-container">
         <button type="button" onClick={handleLogin}>
-          Login
+          Log in
         </button>
         <button
           type="button"
@@ -61,6 +92,10 @@ function Login() {
         >
           Log in as a guest
         </button>
+      </div>
+
+      <div className={activeErrorMessage ? 'popup-message popup-animation' : 'popup-message'}>
+        <p>{errorText}</p>
       </div>
     </div>
   )

@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import { Button, InputGroup, Input, FormControl, InputRightElement, FormLabel, Center } from '@chakra-ui/react'
 import { Form } from 'react-router-dom'
+import { useToast } from '@chakra-ui/react'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 function Signup() {
   const [email, setEmail] = useState('')
@@ -8,12 +11,16 @@ function Signup() {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [name, setName] = useState('')
   const [picture, setPicture] = useState()
+  const [loading, setLoading] = useState()
+  const toast = useToast()
+  const navigate = useNavigate()
 
+  //variables to control the behaviour of the next button, animations
   const [show, setShow] = useState(false)
   const [isFirstInputs, setIsFirstInputs] = useState(true)
   const [firstTime, setFirstTime] = useState(true)
 
-  // use a regular expression to validate email format
+  //validate email format
   const isValidEmail = (email) => {
     var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     return regex.test(email)
@@ -40,7 +47,7 @@ function Signup() {
 
     if (isFirstInputs) {
       if (!isValidEmail(email)) {
-        setErrorText((prevMessages) => prevMessages + `Your mail is not valid.`)
+        setErrorText((prevMessages) => prevMessages + `Your email is not valid.`)
         if (!activeErrorMessage) {
           showError()
         }
@@ -68,18 +75,78 @@ function Signup() {
     }
   }
 
-  const handlePictureUpload = (pictures) => {}
+  const handlePictureUpload = (pictures) => {
+    setLoading(true)
+    if (pictures === undefined) {
+      toast({
+        title: 'Please select an image',
+        description: 'Image uploaded',
+        status: 'warning',
+        duration: 4000,
+        isClosable: true,
+        position: 'bottom',
+      })
+      return
+    }
 
-  const handleSubmit = () => {
+    if (pictures.type === 'image/jpeg' || pictures.type === 'image/png') {
+      const data = new FormData()
+      data.append('file', pictures)
+      data.append('upload_preset', 'chat-application')
+      data.append('cloud_name', 'dl4iierxz')
+
+      fetch('https://api.cloudinary.com/v1_1/dl4iierxz/image/upload', {
+        method: 'POST',
+        body: data,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setPicture(data.url.toString())
+          console.log(data)
+          setLoading(false)
+        })
+        .catch((err) => {
+          console.log(err)
+          setLoading(false)
+        })
+    } else {
+      toast({
+        title: 'Please select an image',
+        description: '',
+        status: 'warning',
+        duration: 4000,
+        isClosable: true,
+        position: 'bottom',
+      })
+    }
+  }
+
+  const handleSubmit = async () => {
     setErrorText('')
-    if (name.length < 1 || name.length > 32) {
-      setErrorText((prevMessages) => prevMessages + ' Name must be longer than 8 characters and shorter than 32 \n')
+    if (name.length < 2 || name.length > 32) {
+      setErrorText((prevMessages) => prevMessages + ' Name must be longer than 2 characters and shorter than 32 \n')
       if (!activeErrorMessage) {
         showError()
       }
     } else {
       //submit operation
-      console.log(email, password, name)
+      try {
+        const config = {
+          headers: {
+            'Application-type': 'application/json',
+          },
+        }
+
+        const { data } = await axios.post('/api/user', { email, password, name, picture }, config)
+
+        localStorage.setItem('userInfo', JSON.stringify(data))
+        navigate('/chats')
+      } catch (err) {
+        setErrorText((prevMessages) => prevMessages + `Registration error: ${err.response.data.message}`)
+        if (!activeErrorMessage) {
+          showError()
+        }
+      }
     }
   }
 
@@ -150,7 +217,7 @@ function Signup() {
 
           <FormControl id="picture" className="seconary-inputs">
             <Center>
-              <FormLabel>Upload your profile photo (optional)</FormLabel>
+              <FormLabel>{loading ? 'Loading...' : 'Upload your profile photo (optional)'} </FormLabel>
             </Center>
             <Center>
               <Input
