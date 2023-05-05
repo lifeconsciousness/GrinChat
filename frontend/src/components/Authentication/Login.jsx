@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { FormControl, InputGroup, Input, InputRightElement } from '@chakra-ui/react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import ErrorDisplay from './ErrorDisplay'
 
 function Login() {
   const [email, setEmail] = useState('')
@@ -15,33 +16,16 @@ function Login() {
   }
 
   //error handling
-  const [errorText, setErrorText] = useState('')
-  const [activeErrorMessage, setActiveErrorMessage] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
+  const [counter, setCounter] = useState(0)
 
-  const showError = () => {
-    setActiveErrorMessage(true)
-
-    setTimeout(() => {
-      setActiveErrorMessage(false)
-    }, 4000)
+  const sendErrorText = (text) => {
+    setErrorMessage((prevMessages) => prevMessages + text)
+    setCounter(counter + 1)
   }
-
-  const errorAppear = (errMessage) => {
-    setErrorText((prevMessages) => prevMessages + ` ${errMessage} \n`)
-    if (!activeErrorMessage) {
-      showError()
-    }
-  }
-
-  // const isValidEmail = (email) => {
-  //   var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  //   return regex.test(email)
-  // }
 
   //handle click on login button
   const handleLogin = async () => {
-    setErrorText('')
-
     try {
       const config = {
         headers: {
@@ -55,7 +39,7 @@ function Login() {
       localStorage.setItem('userInfo', JSON.stringify(data))
       navigate('/chats')
     } catch (err) {
-      errorAppear(err.response.data.message)
+      sendErrorText(err.response.data.message)
     }
   }
 
@@ -109,9 +93,7 @@ function Login() {
         </button>
       </div>
 
-      <div className={activeErrorMessage ? 'popup-message popup-animation' : 'popup-message'}>
-        <p>{errorText}</p>
-      </div>
+      <>{counter === 0 ? '' : <ErrorDisplay errMessage={errorMessage} rerender={counter} />}</>
     </div>
   )
 }

@@ -4,6 +4,7 @@ import { Form } from 'react-router-dom'
 import { useToast } from '@chakra-ui/react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import ErrorDisplay from './ErrorDisplay'
 
 function Signup() {
   const [email, setEmail] = useState('')
@@ -33,33 +34,28 @@ function Signup() {
     setShow(!show)
   }
 
-  const showError = () => {
-    setActiveErrorMessage(true)
+  //error handling
+  const [errorMessage, setErrorMessage] = useState('')
+  //use counter to re-render component every time
+  const [counter, setCounter] = useState(0)
 
-    setTimeout(() => {
-      setActiveErrorMessage(false)
-    }, 4000)
-  }
-
-  const errorAppear = (errMessage) => {
-    setErrorText((prevMessages) => prevMessages + ` ${errMessage} \n`)
-    if (!activeErrorMessage) {
-      showError()
-    }
+  const sendErrorText = (text) => {
+    setErrorMessage((prevMessages) => prevMessages + text)
+    setCounter(counter + 1)
   }
 
   const handleNextBtn = () => {
-    setErrorText('')
+    setErrorMessage('')
 
     if (isFirstInputs) {
       if (!isValidEmail(email)) {
-        errorAppear(` Your email is not valid. `)
+        sendErrorText(` Your email is not valid. `)
       }
       if (password !== confirmPassword) {
-        errorAppear(` Password and confirm password do not match. `)
+        sendErrorText(` Password and confirm password do not match. `)
       }
       if (password.length < 8 || password.length > 32) {
-        errorAppear(` Password must be longer than 8 characters and shorter than 32. `)
+        sendErrorText(` Password must be longer than 8 characters and shorter than 32. `)
       }
       if (password === confirmPassword && password !== '' && password.length > 8 && isValidEmail(email)) {
         setIsFirstInputs(!isFirstInputs)
@@ -72,10 +68,10 @@ function Signup() {
 
   const handlePictureUpload = (pictures) => {
     setLoading(true)
-    setErrorText('')
+    setErrorMessage('')
 
     if (pictures === undefined) {
-      errorAppear(` Please select an image `)
+      sendErrorText(` Please select an image `)
       return
     }
 
@@ -100,14 +96,14 @@ function Signup() {
           setLoading(false)
         })
     } else {
-      errorAppear(` Please select an image `)
+      sendErrorText(` Please select an image `)
     }
   }
 
   const handleSubmit = async () => {
-    setErrorText('')
+    setErrorMessage('')
     if (name.length < 2 || name.length > 32) {
-      errorAppear(` Name must be longer than 2 characters and shorter than 32 `)
+      sendErrorText(` Name must be longer than 2 characters and shorter than 32 `)
     } else {
       //submit/registration operation
       try {
@@ -116,13 +112,12 @@ function Signup() {
             'Application-type': 'application/json',
           },
         }
-        console.log('try')
-        const { data } = await axios.post('/api/user/login', { email, password, name, picture }, config)
+        const { data } = await axios.post('/api/user', { email, password, name, picture }, config)
 
         localStorage.setItem('userInfo', JSON.stringify(data))
-        // navigate('/chats')
+        navigate('/chats')
       } catch (err) {
-        errorAppear(err.response.data.message)
+        sendErrorText(err.response.data.message)
       }
     }
   }
@@ -219,9 +214,7 @@ function Signup() {
         {!isFirstInputs ? <button onClick={handleSubmit}>Submit</button> : ''}
       </div>
 
-      <div className={activeErrorMessage ? 'popup-message popup-animation' : 'popup-message'}>
-        <p>{errorText}</p>
-      </div>
+      <>{counter === 0 ? '' : <ErrorDisplay errMessage={errorMessage} rerender={counter} />}</>
     </div>
   )
 }
