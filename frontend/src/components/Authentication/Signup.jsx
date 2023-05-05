@@ -15,10 +15,12 @@ function Signup() {
   const toast = useToast()
   const navigate = useNavigate()
 
-  //variables to control the behaviour of the next button, animations
+  //variables to control the behaviour of the next button, animations, error display
   const [show, setShow] = useState(false)
   const [isFirstInputs, setIsFirstInputs] = useState(true)
   const [firstTime, setFirstTime] = useState(true)
+  const [errorText, setErrorText] = useState('')
+  const [activeErrorMessage, setActiveErrorMessage] = useState(false)
 
   //validate email format
   const isValidEmail = (email) => {
@@ -26,13 +28,10 @@ function Signup() {
     return regex.test(email)
   }
 
-  //password show
+  //show password
   const handleShowBtn = () => {
     setShow(!show)
   }
-
-  const [errorText, setErrorText] = useState('')
-  const [activeErrorMessage, setActiveErrorMessage] = useState(false)
 
   const showError = () => {
     setActiveErrorMessage(true)
@@ -42,29 +41,25 @@ function Signup() {
     }, 4000)
   }
 
+  const errorAppear = (errMessage) => {
+    setErrorText((prevMessages) => prevMessages + ` ${errMessage} \n`)
+    if (!activeErrorMessage) {
+      showError()
+    }
+  }
+
   const handleNextBtn = () => {
     setErrorText('')
 
     if (isFirstInputs) {
       if (!isValidEmail(email)) {
-        setErrorText((prevMessages) => prevMessages + `Your email is not valid.`)
-        if (!activeErrorMessage) {
-          showError()
-        }
+        errorAppear(` Your email is not valid. `)
       }
       if (password !== confirmPassword) {
-        setErrorText((prevMessages) => prevMessages + ' Password and confirm password do not match. \n')
-        if (!activeErrorMessage) {
-          showError()
-        }
+        errorAppear(` Password and confirm password do not match. `)
       }
       if (password.length < 8 || password.length > 32) {
-        setErrorText(
-          (prevMessages) => prevMessages + ' Password must be longer than 8 characters and shorter than 32 \n'
-        )
-        if (!activeErrorMessage) {
-          showError()
-        }
+        errorAppear(` Password must be longer than 8 characters and shorter than 32. `)
       }
       if (password === confirmPassword && password !== '' && password.length > 8 && isValidEmail(email)) {
         setIsFirstInputs(!isFirstInputs)
@@ -77,19 +72,15 @@ function Signup() {
 
   const handlePictureUpload = (pictures) => {
     setLoading(true)
+    setErrorText('')
+
     if (pictures === undefined) {
-      toast({
-        title: 'Please select an image',
-        description: 'Image uploaded',
-        status: 'warning',
-        duration: 4000,
-        isClosable: true,
-        position: 'bottom',
-      })
+      errorAppear(` Please select an image `)
       return
     }
 
     if (pictures.type === 'image/jpeg' || pictures.type === 'image/png') {
+      //uploading profile picture on the cloud
       const data = new FormData()
       data.append('file', pictures)
       data.append('upload_preset', 'chat-application')
@@ -110,26 +101,16 @@ function Signup() {
           setLoading(false)
         })
     } else {
-      toast({
-        title: 'Please select an image',
-        description: '',
-        status: 'warning',
-        duration: 4000,
-        isClosable: true,
-        position: 'bottom',
-      })
+      errorAppear(` Please select an image `)
     }
   }
 
   const handleSubmit = async () => {
     setErrorText('')
     if (name.length < 2 || name.length > 32) {
-      setErrorText((prevMessages) => prevMessages + ' Name must be longer than 2 characters and shorter than 32 \n')
-      if (!activeErrorMessage) {
-        showError()
-      }
+      errorAppear(` Name must be longer than 2 characters and shorter than 32 `)
     } else {
-      //submit operation
+      //submit/registration operation
       try {
         const config = {
           headers: {
@@ -137,15 +118,12 @@ function Signup() {
           },
         }
 
-        const { data } = await axios.post('/api/user', { email, password, name, picture }, config)
+        const { data } = await axios.post('/api/user/login', { email, password, name, picture }, config)
 
         localStorage.setItem('userInfo', JSON.stringify(data))
         navigate('/chats')
       } catch (err) {
-        setErrorText((prevMessages) => prevMessages + `Registration error: ${err.response.data.message}`)
-        if (!activeErrorMessage) {
-          showError()
-        }
+        errorAppear(` Registration error: ${err.response.data.message} `)
       }
     }
   }

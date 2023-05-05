@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 import { FormControl, InputGroup, Input, InputRightElement } from '@chakra-ui/react'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const navigate = useNavigate()
 
   //show password button
   const [show, setShow] = useState(false)
@@ -29,18 +32,26 @@ function Login() {
   }
 
   //handle click on login button
-  const handleLogin = () => {
+  const handleLogin = async () => {
     setErrorText('')
 
-    //password validation here
-    if (!isValidEmail(email)) {
-      setErrorText((prevMessages) => prevMessages + ` Your email or password is not valid.`)
+    try {
+      const config = {
+        headers: {
+          'Application-type': 'application/json',
+        },
+      }
+
+      //login api request
+      const { data } = await axios.post('/api/user/login', { email, password }, config)
+
+      localStorage.setItem('userInfo', JSON.stringify(data))
+      navigate('/chats')
+    } catch (err) {
+      setErrorText((prevMessages) => prevMessages + err)
       if (!activeErrorMessage) {
         showError()
       }
-    } else {
-      //login operation
-      console.log('login')
     }
   }
 

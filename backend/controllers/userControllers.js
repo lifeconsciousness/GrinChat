@@ -10,6 +10,7 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error('Please fill all fields')
   }
 
+  //checking is entered email is already in the database
   const userExists = await User.findOne({ email })
 
   if (userExists) {
@@ -25,6 +26,7 @@ const registerUser = asyncHandler(async (req, res) => {
   })
 
   if (user) {
+    //writing data in the database
     res.status(201).json({
       _id: user.id,
       email: user.email,
