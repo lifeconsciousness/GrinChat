@@ -93,7 +93,6 @@ function Signup() {
         .then((res) => res.json())
         .then((data) => {
           setPicture(data.url.toString())
-          console.log(data)
           setLoading(false)
         })
         .catch((err) => {
@@ -117,13 +116,13 @@ function Signup() {
             'Application-type': 'application/json',
           },
         }
-
+        console.log('try')
         const { data } = await axios.post('/api/user/login', { email, password, name, picture }, config)
 
         localStorage.setItem('userInfo', JSON.stringify(data))
-        navigate('/chats')
+        // navigate('/chats')
       } catch (err) {
-        errorAppear(` Registration error: ${err.response.data.message} `)
+        errorAppear(err.response.data.message)
       }
     }
   }

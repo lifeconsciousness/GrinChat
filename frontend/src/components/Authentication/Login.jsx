@@ -26,10 +26,17 @@ function Login() {
     }, 4000)
   }
 
-  const isValidEmail = (email) => {
-    var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return regex.test(email)
+  const errorAppear = (errMessage) => {
+    setErrorText((prevMessages) => prevMessages + ` ${errMessage} \n`)
+    if (!activeErrorMessage) {
+      showError()
+    }
   }
+
+  // const isValidEmail = (email) => {
+  //   var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  //   return regex.test(email)
+  // }
 
   //handle click on login button
   const handleLogin = async () => {
@@ -48,10 +55,7 @@ function Login() {
       localStorage.setItem('userInfo', JSON.stringify(data))
       navigate('/chats')
     } catch (err) {
-      setErrorText((prevMessages) => prevMessages + err)
-      if (!activeErrorMessage) {
-        showError()
-      }
+      errorAppear(err.response.data.message)
     }
   }
 
