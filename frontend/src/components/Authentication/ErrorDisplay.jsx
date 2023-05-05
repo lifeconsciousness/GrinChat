@@ -28,4 +28,4 @@ function ErrorDisplay({ errMessage, rerender }) {
   )
 }
 
-export default React.memo(ErrorDisplay)
+export default ErrorDisplay

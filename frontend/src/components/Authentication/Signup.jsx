@@ -20,8 +20,6 @@ function Signup() {
   const [show, setShow] = useState(false)
   const [isFirstInputs, setIsFirstInputs] = useState(true)
   const [firstTime, setFirstTime] = useState(true)
-  const [errorText, setErrorText] = useState('')
-  const [activeErrorMessage, setActiveErrorMessage] = useState(false)
 
   //validate email format
   const isValidEmail = (email) => {
@@ -57,7 +55,13 @@ function Signup() {
       if (password.length < 8 || password.length > 32) {
         sendErrorText(` Password must be longer than 8 characters and shorter than 32. `)
       }
-      if (password === confirmPassword && password !== '' && password.length > 8 && isValidEmail(email)) {
+      if (
+        password === confirmPassword &&
+        password !== '' &&
+        password.length > 8 &&
+        password.length < 32 &&
+        isValidEmail(email)
+      ) {
         setIsFirstInputs(!isFirstInputs)
       }
     } else if (!isFirstInputs) {
@@ -102,7 +106,16 @@ function Signup() {
 
   const handleSubmit = async () => {
     setErrorMessage('')
-    if (name.length < 2 || name.length > 32) {
+
+    if (
+      name.length < 2 ||
+      name.length > 32 ||
+      password !== confirmPassword ||
+      password === '' ||
+      password.length < 8 ||
+      password.length > 32 ||
+      !isValidEmail(email)
+    ) {
       sendErrorText(` Name must be longer than 2 characters and shorter than 32 `)
     } else {
       //submit/registration operation
