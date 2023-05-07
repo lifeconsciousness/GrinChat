@@ -172,4 +172,24 @@ const removeFromGroupChat = asyncHandler(async (req, res) => {
   }
 })
 
-module.exports = { accessChat, fetchChats, createGroupChat, renameGroupChat, addToGroupChat, removeFromGroupChat }
+const deleteChat = asyncHandler(async (req, res) => {
+  const { chatId } = req.body
+
+  const deleted = await Chat.findByIdAndDelete(chatId)
+
+  if (!deleted) {
+    res.status(404).json({ message: 'Chat not found' })
+  } else {
+    res.json({ message: 'Chat deleted successfully' })
+  }
+})
+
+module.exports = {
+  accessChat,
+  fetchChats,
+  createGroupChat,
+  renameGroupChat,
+  addToGroupChat,
+  removeFromGroupChat,
+  deleteChat,
+}
