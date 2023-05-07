@@ -60,6 +60,7 @@ const loginUser = asyncHandler(async (req, res) => {
 })
 
 const allUsers = asyncHandler(async (req, res) => {
+  //URL/api/user/?search=johndoe - API endpoint
   const keyword = req.query.search
     ? {
         $or: [
@@ -69,8 +70,8 @@ const allUsers = asyncHandler(async (req, res) => {
       }
     : {}
 
-  // const users = await User.find(keyword).find({ _id: { $ne: req.user._id } })
-  const users = await User.find(keyword)
+  //the second chained find() finds all users whose id is $ne (not equal) to the id of the user in request object
+  const users = await User.find(keyword).find({ _id: { $ne: req.user._id } })
   res.send(users)
 })
 
