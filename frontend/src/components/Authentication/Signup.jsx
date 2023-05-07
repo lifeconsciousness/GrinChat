@@ -202,7 +202,9 @@ function Signup() {
 
           <FormControl id="picture" className="seconary-inputs">
             <Center>
-              <FormLabel>{loading ? 'Loading...' : 'Upload your profile photo (optional)'} </FormLabel>
+              <FormLabel textAlign={'center'}>
+                {loading ? 'Loading...' : 'Upload your profile photo (optional)'}{' '}
+              </FormLabel>
             </Center>
             <Center>
               <Input

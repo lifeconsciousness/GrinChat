@@ -37,6 +37,7 @@ function Login() {
       const { data } = await axios.post('/api/user/login', { email, password }, config)
 
       localStorage.setItem('userInfo', JSON.stringify(data))
+      console.log('login')
       navigate('/chats')
     } catch (err) {
       sendErrorText(err.response.data.message)
@@ -52,6 +53,7 @@ function Login() {
             name="email-input"
             placeholder="Enter your email"
             required
+            value={email}
             onChange={(e) => {
               setEmail(e.target.value)
             }}
@@ -65,6 +67,7 @@ function Login() {
               name="password-input"
               placeholder="Enter your password"
               required
+              value={password}
               onChange={(e) => {
                 setPassword(e.target.value)
               }}
@@ -85,11 +88,11 @@ function Login() {
         <button
           type="button"
           onClick={() => {
-            setEmail('guest@example.com')
+            setEmail('guest@email.com')
             setPassword('guestpassword123')
           }}
         >
-          Log in as a guest
+          Use guest credentials
         </button>
       </div>
 
