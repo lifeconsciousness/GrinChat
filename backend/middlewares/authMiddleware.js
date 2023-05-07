@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken')
 const User = require('../models/userModel.js')
 const asyncHandler = require('express-async-handler')
 
+//When added, this middleware creates user object in reqest, so in other chained controllers, modules the logined user's id can be retrieved
+
 //if user is not logged in protect will prevent the access
 const protect = asyncHandler(async (req, res, next) => {
   //use bearer token to find the user that is logged in
