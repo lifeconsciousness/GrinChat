@@ -1,10 +1,30 @@
-import { HamburgerIcon } from '@chakra-ui/icons'
-import { Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay, useDisclosure } from '@chakra-ui/react'
+import { BellIcon, HamburgerIcon, Search2Icon } from '@chakra-ui/icons'
+import {
+  Avatar,
+  Drawer,
+  DrawerBody,
+  DrawerContent,
+  DrawerHeader,
+  DrawerOverlay,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuItem,
+  MenuList,
+  useBreakpointValue,
+  useDisclosure,
+  Divider,
+} from '@chakra-ui/react'
 import React, { useEffect, useRef, useState } from 'react'
+import { ChatState } from '../context/ChatProvider'
 
 type Props = {}
 
-export default function MyChats({}: Props) {
+const MyChats = ({}: Props) => {
+  const { user } = ChatState()
   const [search, setsearch] = useState('')
   const [searchResult, setsearchResult] = useState([])
   const [loading, setloading] = useState(false)
@@ -78,6 +98,9 @@ export default function MyChats({}: Props) {
     }
   }, [isResizing, lastX])
 
+  // const isSmallScreen = useBreakpointValue({ base: true, md: false })
+  // const drawerSize = isSmallScreen ? '80%' : 'xs'
+
   return (
     <div className="chats-container" ref={boxRef}>
       <div className="right-border" ref={borderRef}></div>
@@ -87,10 +110,37 @@ export default function MyChats({}: Props) {
 
         <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
           <DrawerOverlay />
-          <DrawerContent>
-            <HamburgerIcon onClick={onClose} cursor="pointer" fontSize="4xl" className="burger-icon" color="black" />
-            <DrawerHeader borderBottomWidth="1px">Basic Drawer</DrawerHeader>
-            <DrawerBody>
+          <DrawerContent className="drawer">
+            {/* <HamburgerIcon onClick={onClose} cursor="pointer" fontSize="4xl" className="burger-icon" color="black" /> */}
+
+            <DrawerBody className="drawer-body">
+              <div className="avatar-and-name">
+                <Menu>
+                  <MenuButton color={'black'}>
+                    <Avatar size="md" cursor="pointer" name={user?.name} src={user?.picture} className="avatar" />
+                  </MenuButton>
+                  <MenuList color="black">
+                    <MenuItem>My profile</MenuItem>
+                    <MenuItem>Settings</MenuItem>
+                    <MenuDivider />
+                    <MenuItem>Log out</MenuItem>
+                  </MenuList>
+                </Menu>
+
+                <div className="name-and-bell">
+                  <h2>{user?.name}</h2>
+
+                  <Menu>
+                    <MenuButton>
+                      <BellIcon fontSize="3xl" m={1} className="bell" />
+                    </MenuButton>
+                    <MenuList></MenuList>
+                  </Menu>
+                </div>
+              </div>
+
+              <Divider marginBottom="10px" />
+
               <p>Some contents...</p>
               <p>Some contents...</p>
               <p>Some contents...</p>
@@ -104,3 +154,5 @@ export default function MyChats({}: Props) {
     </div>
   )
 }
+
+export default MyChats

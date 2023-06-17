@@ -3,7 +3,7 @@ import axios from 'axios'
 import { ChatState } from '../context/ChatProvider'
 import MyChats from '../components/MyChats'
 import ChatBox from '../components/ChatBox'
-import { useDisclosure } from '@chakra-ui/react'
+import { Show, useDisclosure } from '@chakra-ui/react'
 import {
   Menu,
   MenuButton,
@@ -26,33 +26,33 @@ const ChatPage = () => {
 
   return (
     <div className="chats-page">
-      {/* {!isOpen ? <HamburgerIcon onClick={onOpen} cursor="pointer" fontSize="4xl" className="burger-icon" /> : ''} */}
-
       <MyChats />
 
-      <nav className="navigation-panel">
-        <div className="options">
-          <Menu>
-            <MenuButton>
-              <BellIcon fontSize="2xl" m={1} />
-            </MenuButton>
-            {/* <MenuList></MenuList> */}
-          </Menu>
-          <Menu>
-            <MenuButton color={'black'}>
-              <Avatar size="sm" cursor="pointer" name={user?.name} src={user?.picture} />
-            </MenuButton>
-            <MenuList color="black">
-              <MenuItem>My profile</MenuItem>
-              <MenuItem>Settings</MenuItem>
-              <MenuDivider />
-              <MenuItem>Log out</MenuItem>
-            </MenuList>
-          </Menu>
-        </div>
+      <Show breakpoint="(min-width: 520px)" sx={{ font: 'inherit' }}>
+        <nav className="navigation-panel">
+          <div className="options">
+            <Menu>
+              <MenuButton>
+                <BellIcon fontSize="3xl" m={1} className="bell" />
+              </MenuButton>
+              {/* <MenuList></MenuList> */}
+            </Menu>
+            <Menu>
+              <MenuButton color={'black'}>
+                <Avatar size="md" cursor="pointer" name={user?.name} src={user?.picture} className="avatar" />
+              </MenuButton>
+              <MenuList color="black">
+                <MenuItem>My profile</MenuItem>
+                <MenuItem>Settings</MenuItem>
+                <MenuDivider />
+                <MenuItem>Log out</MenuItem>
+              </MenuList>
+            </Menu>
+          </div>
 
-        <ChatBox />
-      </nav>
+          <ChatBox />
+        </nav>
+      </Show>
     </div>
   )
 }
