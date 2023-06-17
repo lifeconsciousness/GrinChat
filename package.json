@@ -9,9 +9,11 @@
   "author": "Tovstolis Maksym",
   "license": "ISC",
   "dependencies": {
+    "@chakra-ui/icons": "^2.0.19",
     "@chakra-ui/react": "^2.5.5",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@types/react": "^18.2.12",
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
     "dotenv": "^16.0.3",
@@ -22,6 +24,7 @@
     "mongodb": "^5.3.0",
     "mongoose": "^7.0.4",
     "nodemon": "^2.0.22",
-    "sass": "^1.62.0"
+    "sass": "^1.62.0",
+    "typescript": "^5.1.3"
   }
 }

@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/user', userRoutes)
-app.use('/api/chat', chatRoutes)
+app.use('/api/chats', chatRoutes)
 
 app.use(notFound)
 app.use(errorHandler)
@@ -32,6 +32,6 @@ app.use(errorHandler)
 //   res.send(singleChat)
 // })
 
-const PORT = process.env.PORT || 7000
+const PORT = process.env.PORT || 10000
 
 app.listen(7000, console.log(`Server stared on PORT ${PORT}`.yellow.bold))

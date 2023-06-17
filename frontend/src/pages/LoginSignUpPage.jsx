@@ -2,8 +2,20 @@ import React from 'react'
 import { Tabs, TabList, TabPanels, Tab, TabPanel, TabIndicator } from '@chakra-ui/react'
 import Login from '../components/Authentication/Login'
 import Signup from '../components/Authentication/Signup'
+import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 
 const Homepage = () => {
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+
+    if (userInfo) {
+      navigate('/chats')
+    }
+  }, [navigate])
+
   return (
     <div className="login-page">
       <div className="logo-text">
