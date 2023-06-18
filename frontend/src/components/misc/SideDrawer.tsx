@@ -1,0 +1,85 @@
+import React from 'react'
+import {
+  Avatar,
+  Drawer,
+  DrawerBody,
+  DrawerContent,
+  DrawerHeader,
+  DrawerOverlay,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuItem,
+  MenuList,
+  useBreakpointValue,
+  useDisclosure,
+  Divider,
+} from '@chakra-ui/react'
+import { BellIcon, HamburgerIcon } from '@chakra-ui/icons'
+import ProfileModal from './ProfileModal'
+
+type Props = {
+  user: any
+}
+
+const SideDrawer = ({ user }: Props) => {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
+  return (
+    <>
+      {!isOpen ? <HamburgerIcon onClick={onOpen} cursor="pointer" fontSize="4xl" className="burger-icon" /> : ''}
+
+      <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
+        <DrawerOverlay />
+        <DrawerContent className="drawer">
+          <DrawerBody className="drawer-body">
+            <div className="avatar-and-name">
+              <Menu>
+                <MenuButton color={'black'}>
+                  <Avatar
+                    size="md"
+                    cursor="pointer"
+                    name={user?.name}
+                    src={user?.picture}
+                    className="avatar"
+                    userSelect="none"
+                  />
+                </MenuButton>
+                <MenuList color="black">
+                  <ProfileModal user={user}>
+                    <MenuItem>My profile</MenuItem>
+                  </ProfileModal>
+                  <MenuItem>Settings</MenuItem>
+                  <MenuDivider />
+                  <MenuItem>Log out</MenuItem>
+                </MenuList>
+              </Menu>
+
+              <div className="name-and-bell">
+                <h2>{user?.name}</h2>
+
+                <Menu>
+                  <MenuButton>
+                    <BellIcon fontSize="3xl" m={1} className="bell" />
+                  </MenuButton>
+                  <MenuList></MenuList>
+                </Menu>
+              </div>
+            </div>
+
+            <Divider marginBottom="10px" />
+
+            <p>Some contents...</p>
+            <p>Some contents...</p>
+            <p>Some contents...</p>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+    </>
+  )
+}
+
+export default SideDrawer

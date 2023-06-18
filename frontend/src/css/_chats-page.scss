@@ -101,8 +101,13 @@
 
 /////chats list
 
+.search-field {
+  user-select: none;
+}
+
 .chats {
   padding: 14px;
+  user-select: none;
 }
 
 ////chat box
@@ -142,4 +147,12 @@
     align-items: center;
     justify-content: space-between;
   }
+}
+
+///modal window
+
+.user-pic-name {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }

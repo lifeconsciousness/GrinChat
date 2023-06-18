@@ -19,10 +19,10 @@ import {
   DrawerBody,
 } from '@chakra-ui/react'
 import { BellIcon, ChevronDownIcon, HamburgerIcon } from '@chakra-ui/icons'
+import ProfileModal from '../components/misc/ProfileModal'
 
 const ChatPage = () => {
   const { user } = ChatState()
-  // const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
     <div className="chats-page">
@@ -33,16 +33,25 @@ const ChatPage = () => {
           <div className="options">
             <Menu>
               <MenuButton>
-                <BellIcon fontSize="3xl" m={1} className="bell" />
+                <BellIcon fontSize="3xl" m={1} className="bell" userSelect="none" />
               </MenuButton>
               {/* <MenuList></MenuList> */}
             </Menu>
             <Menu>
               <MenuButton color={'black'}>
-                <Avatar size="md" cursor="pointer" name={user?.name} src={user?.picture} className="avatar" />
+                <Avatar
+                  size="md"
+                  cursor="pointer"
+                  name={user?.name}
+                  src={user?.picture}
+                  className="avatar"
+                  userSelect="none"
+                />
               </MenuButton>
               <MenuList color="black">
-                <MenuItem>My profile</MenuItem>
+                <ProfileModal user={user}>
+                  <MenuItem>My profile</MenuItem>
+                </ProfileModal>
                 <MenuItem>Settings</MenuItem>
                 <MenuDivider />
                 <MenuItem>Log out</MenuItem>
