@@ -18,23 +18,38 @@ import {
   useDisclosure,
   Divider,
 } from '@chakra-ui/react'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { ReactNode, useEffect, useRef, useState } from 'react'
 import { ChatState } from '../context/ChatProvider'
 import SideDrawer from './misc/SideDrawer'
+import axios from 'axios'
+import ChatLoading from './misc/ChatLoading'
+import UserListItem from './User/UserListItem'
 
 type Props = {}
 
 const MyChats = ({}: Props) => {
   const { user } = ChatState()
-  const [search, setsearch] = useState('')
-  const [searchResult, setsearchResult] = useState([])
+
+  interface User {
+    _id: string
+  }
+
+  //user search
+  const [search, setSearch] = useState('')
+  const [searchResult, setsearchResult] = useState<User[]>([])
   const [loading, setloading] = useState(false)
   const [loadingChat, setloadingChat] = useState()
 
-  //chakra ui drawer
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  //error handling boilerplate
+  const [errorMessage, setErrorMessage] = useState('')
+  const [counter, setCounter] = useState(0)
 
-  //adjustable width of chat list
+  const sendErrorText = (text) => {
+    setErrorMessage((prevMessages) => prevMessages + text)
+    setCounter(counter + 1)
+  }
+
+  /////////////////////////////////////////////adjustable width of chat list
   const boxRef = useRef<HTMLDivElement | null>(null)
   const borderRef = useRef<HTMLDivElement | null>(null)
   const [isResizing, setIsResizing] = useState(false)
@@ -99,6 +114,43 @@ const MyChats = ({}: Props) => {
     }
   }, [isResizing, lastX])
 
+  /////////////////////////////////////////////////////////////////////////
+
+  /////searching other users
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (search !== '') {
+        try {
+          setloading(true)
+
+          const config = {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+          }
+
+          const { data } = await axios.get(`/api/user/?search=${search}`, config)
+
+          setloading(false)
+          setsearchResult(data)
+        } catch (error) {
+          sendErrorText('Failed to load chats')
+        }
+      }
+    }
+
+    fetchData()
+  }, [search])
+
+  const handleSearch = (e) => {
+    setSearch(e.target.value)
+  }
+
+  const accessChat = (userId) => {
+    console.log(userId)
+  }
+
   return (
     <div className="chats-container" ref={boxRef}>
       <div className="right-border" ref={borderRef}></div>
@@ -106,10 +158,33 @@ const MyChats = ({}: Props) => {
       <div className="hamburger-and-chat">
         <SideDrawer user={user} />
 
-        <input type="text" placeholder="Search" className="search-field" />
+        <input
+          type="text"
+          placeholder="Search"
+          className="search-field"
+          value={search}
+          // onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => handleSearch(e)}
+        />
       </div>
 
-      <div className="chats">chat chat</div>
+      <div className="chats">
+        {loading ? (
+          <ChatLoading />
+        ) : (
+          searchResult.map((user) => {
+            return (
+              <UserListItem
+                key={user._id}
+                user={user}
+                handleFunction={() => {
+                  accessChat(user._id)
+                }}
+              />
+            )
+          })
+        )}
+      </div>
     </div>
   )
 }

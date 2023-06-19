@@ -20,6 +20,7 @@ import {
 } from '@chakra-ui/react'
 import { BellIcon, HamburgerIcon } from '@chakra-ui/icons'
 import ProfileModal from './ProfileModal'
+import useLogout from '../Authentication/Logout'
 
 type Props = {
   user: any
@@ -27,6 +28,7 @@ type Props = {
 
 const SideDrawer = ({ user }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const logout = useLogout()
 
   return (
     <>
@@ -35,7 +37,7 @@ const SideDrawer = ({ user }: Props) => {
       <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
         <DrawerContent className="drawer">
-          <DrawerBody className="drawer-body">
+          <DrawerBody className="drawer-body" marginTop="1em" marginBottom="1.2em">
             <div className="avatar-and-name">
               <Menu>
                 <MenuButton color={'black'}>
@@ -54,7 +56,7 @@ const SideDrawer = ({ user }: Props) => {
                   </ProfileModal>
                   <MenuItem>Settings</MenuItem>
                   <MenuDivider />
-                  <MenuItem>Log out</MenuItem>
+                  <MenuItem onClick={logout}>Log out</MenuItem>
                 </MenuList>
               </Menu>
 
@@ -74,7 +76,13 @@ const SideDrawer = ({ user }: Props) => {
 
             <p>Some contents...</p>
             <p>Some contents...</p>
-            <p>Some contents...</p>
+
+            <div className="logout-and-rest">
+              <p>Some contents...</p>
+              <button className="logout-drawer" onClick={logout}>
+                Log out
+              </button>
+            </div>
           </DrawerBody>
         </DrawerContent>
       </Drawer>

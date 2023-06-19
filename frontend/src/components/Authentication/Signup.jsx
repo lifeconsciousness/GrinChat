@@ -128,6 +128,7 @@ function Signup() {
         const { data } = await axios.post('/api/user', { email, password, name, picture }, config)
 
         localStorage.setItem('userInfo', JSON.stringify(data))
+        localStorage.setItem('isSignedUp', 'true')
         navigate('/chats')
       } catch (err) {
         sendErrorText(err.response.data.message)

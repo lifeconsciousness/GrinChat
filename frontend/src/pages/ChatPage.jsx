@@ -20,9 +20,11 @@ import {
 } from '@chakra-ui/react'
 import { BellIcon, ChevronDownIcon, HamburgerIcon } from '@chakra-ui/icons'
 import ProfileModal from '../components/misc/ProfileModal'
+import useLogout from '../components/Authentication/Logout'
 
 const ChatPage = () => {
   const { user } = ChatState()
+  const logout = useLogout()
 
   return (
     <div className="chats-page">
@@ -54,7 +56,7 @@ const ChatPage = () => {
                 </ProfileModal>
                 <MenuItem>Settings</MenuItem>
                 <MenuDivider />
-                <MenuItem>Log out</MenuItem>
+                <MenuItem onClick={logout}>Log out</MenuItem>
               </MenuList>
             </Menu>
           </div>

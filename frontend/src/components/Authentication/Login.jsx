@@ -37,7 +37,8 @@ function Login() {
       const { data } = await axios.post('/api/user/login', { email, password }, config)
 
       localStorage.setItem('userInfo', JSON.stringify(data))
-      console.log('login')
+      localStorage.setItem('isSignedUp', 'true')
+
       navigate('/chats')
     } catch (err) {
       sendErrorText(err.response.data.message)

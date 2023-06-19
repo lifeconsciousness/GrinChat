@@ -24,7 +24,12 @@ const Homepage = () => {
 
       <div className="main-container">
         <div className="login-signup">
-          <Tabs position="relative" variant="unstyled" isFitted>
+          <Tabs
+            position="relative"
+            variant="unstyled"
+            isFitted
+            defaultIndex={localStorage.getItem('isSignedUp') === 'true' ? 1 : 0}
+          >
             <TabList>
               <Tab>Sign up</Tab>
               <Tab>Login</Tab>

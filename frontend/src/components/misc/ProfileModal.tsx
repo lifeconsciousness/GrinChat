@@ -1,4 +1,4 @@
-import { Avatar, Button, useDisclosure } from '@chakra-ui/react'
+import { Avatar, Button, Divider, useDisclosure } from '@chakra-ui/react'
 import React from 'react'
 import {
   Modal,
@@ -42,6 +42,8 @@ const ProfileModal = ({ user, children }: Props) => {
                 <h4 style={{ opacity: 0.8 }}>Last seen: ?</h4>
               </div>
             </div>
+            <Divider margin="13px 0" />
+            <h4>Your email: {user.email}</h4>
           </ModalBody>
 
           <ModalFooter></ModalFooter>
