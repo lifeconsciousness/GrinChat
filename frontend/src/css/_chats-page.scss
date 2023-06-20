@@ -107,8 +107,40 @@
 }
 
 .chats {
-  padding: 14px;
   user-select: none;
+}
+
+.personal-chat-in-list {
+  padding: 5px 6px;
+  cursor: pointer;
+
+  p {
+    font-size: 85%;
+  }
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.139);
+  }
+  &:nth-child(1) {
+    padding-top: 10px;
+  }
+}
+
+.username-in-chatlist {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.latest-message {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.start-message-in-chats {
+  padding: 14px;
+  text-align: center;
 }
 
 ////chat box

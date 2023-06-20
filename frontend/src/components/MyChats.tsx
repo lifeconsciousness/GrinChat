@@ -54,6 +54,7 @@ const MyChats = ({}: Props) => {
   const borderRef = useRef<HTMLDivElement | null>(null)
   const [isResizing, setIsResizing] = useState(false)
   const [lastX, setLastX] = useState(0)
+  const [boxWidth, setboxWidth] = useState<number>()
 
   useEffect(() => {
     const box = boxRef.current
@@ -86,9 +87,10 @@ const MyChats = ({}: Props) => {
       const mouseOffsetX = containerRight - e.clientX
       const newWidth = containerRight - box.getBoundingClientRect().left - mouseOffsetX
 
-      if (newWidth >= 180 && newWidth <= 1000) {
+      if (newWidth >= 280 && newWidth <= 850) {
         box.style.width = `${newWidth}px`
         setLastX(e.clientX)
+        setboxWidth(newWidth)
 
         localStorage.setItem('chatListWidth', newWidth.toString())
       }
@@ -169,6 +171,7 @@ const MyChats = ({}: Props) => {
       </div>
 
       <div className="chats">
+        {searchResult.length === 0 && <p className="start-message-in-chats">Message someone</p>}
         {loading ? (
           <ChatLoading />
         ) : (
@@ -180,6 +183,7 @@ const MyChats = ({}: Props) => {
                 handleFunction={() => {
                   accessChat(user._id)
                 }}
+                chatListWidth={boxWidth}
               />
             )
           })

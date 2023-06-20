@@ -58,8 +58,8 @@ function Signup() {
       if (
         password === confirmPassword &&
         password !== '' &&
-        password.length > 8 &&
-        password.length < 32 &&
+        password.length >= 8 &&
+        password.length <= 32 &&
         isValidEmail(email)
       ) {
         setIsFirstInputs(!isFirstInputs)
