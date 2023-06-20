@@ -87,7 +87,7 @@ const MyChats = ({}: Props) => {
       const mouseOffsetX = containerRight - e.clientX
       const newWidth = containerRight - box.getBoundingClientRect().left - mouseOffsetX
 
-      if (newWidth >= 280 && newWidth <= 850) {
+      if (newWidth >= 280 && newWidth <= screen.width / 2) {
         box.style.width = `${newWidth}px`
         setLastX(e.clientX)
         setboxWidth(newWidth)

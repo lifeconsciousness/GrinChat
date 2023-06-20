@@ -10,8 +10,8 @@ type Props = {
 const UserListItem = ({ user, handleFunction, chatListWidth }: Props) => {
   const [sidebarWidth, setsidebarWidth] = useState<Number>()
   const [nameWidth, setNameWidth] = useState<Number>()
-  const sidebarCutoff = 110
-  const nameCutoff = -55
+  const sidebarCutoff = screen.width <= 520 ? 500 : 145
+  const nameCutoff = -160
 
   useEffect(() => {
     const savedWidth = Number(localStorage.getItem('chatListWidth')) - sidebarCutoff
@@ -29,15 +29,38 @@ const UserListItem = ({ user, handleFunction, chatListWidth }: Props) => {
 
   return (
     <div onClick={handleFunction} className="personal-chat-in-list">
-      <div className="user-pic-name">
+      <div className="user-pic-name" style={{ width: '100%' }}>
         <Avatar size="md" name={user?.name} src={user?.picture} className="avatar" userSelect="none" />
         <div>
-          <p style={{ maxWidth: `${nameWidth}px` }} className="username-in-chatlist">
-            {user?.name}
-          </p>
-          <p style={{ opacity: 0.8, maxWidth: `${sidebarWidth}px` }} className="latest-message">
-            Latest message Latest messageLatest messageLatest messageLatest messageLatest messageLatest message
-          </p>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: screen.width <= 520 ? screen.width - 70 : 'unset',
+            }}
+          >
+            <p
+              style={{ maxWidth: `${screen.width <= 520 ? screen.width - 170 : nameWidth}px` }}
+              className="username-in-chatlist"
+            >
+              {user?.name}
+            </p>
+            <p style={{ opacity: 0.3, fontSize: '70%' }}>13:20</p>
+          </div>
+          <div style={{ display: 'flex', fontSize: '80%' }}>
+            <p className="sender" style={{ opacity: 0.7 }}>
+              Senderrrrrrrrrrr:
+            </p>
+            <p
+              style={{
+                opacity: 0.3,
+                maxWidth: `${screen.width <= 520 ? screen.width - 130 : sidebarWidth}px`,
+              }}
+              className="latest-message"
+            >
+              Latest message Latest messageLatest messageLatest messageLatest messageLatest messageLatest message
+            </p>
+          </div>
         </div>
       </div>
     </div>

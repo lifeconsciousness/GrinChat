@@ -43,7 +43,7 @@ const ProfileModal = ({ user, children }: Props) => {
               </div>
             </div>
             <Divider margin="13px 0" />
-            <h4>Your email: {user.email}</h4>
+            {/* <h4>Your email: {user.email}</h4> */}
           </ModalBody>
 
           <ModalFooter></ModalFooter>
