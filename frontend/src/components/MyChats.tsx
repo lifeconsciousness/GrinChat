@@ -24,11 +24,13 @@ import SideDrawer from './misc/SideDrawer'
 import axios from 'axios'
 import ChatLoading from './misc/ChatLoading'
 import UserListItem from './User/UserListItem'
+import ChatList from './ChatList'
+import ErrorDisplay from './Authentication/ErrorDisplay'
 
 type Props = {}
 
 const MyChats = ({}: Props) => {
-  const { user } = ChatState()
+  const { user, setSelectedChat, chats, setChats } = ChatState()
 
   interface User {
     _id: string
@@ -38,7 +40,7 @@ const MyChats = ({}: Props) => {
   const [search, setSearch] = useState('')
   const [searchResult, setsearchResult] = useState<User[]>([])
   const [loading, setloading] = useState(false)
-  const [loadingChat, setloadingChat] = useState()
+  const [loadingChat, setloadingChat] = useState(false)
 
   //error handling boilerplate
   const [errorMessage, setErrorMessage] = useState('')
@@ -149,8 +151,28 @@ const MyChats = ({}: Props) => {
     setSearch(e.target.value)
   }
 
-  const accessChat = (userId) => {
-    console.log(userId)
+  const accessChat = async (userId: string) => {
+    console.log(user._id)
+    try {
+      setloadingChat(true)
+
+      const config = {
+        headers: {
+          'Content-type': 'application/json',
+          Authorization: `Bearer ${user.token}`,
+        },
+      }
+
+      const { data } = await axios.post('/api/chats', { userId }, config)
+      console.log(data)
+
+      if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats])
+
+      setSelectedChat(data)
+      setloadingChat(false)
+    } catch (error) {
+      sendErrorText('Failed to load chat')
+    }
   }
 
   return (
@@ -171,8 +193,10 @@ const MyChats = ({}: Props) => {
       </div>
 
       <div className="chats">
-        {searchResult.length === 0 && <p className="start-message-in-chats">Message someone</p>}
-        {loading ? (
+        {/* {searchResult.length === 0 && <p className="start-message-in-chats">Message someone</p>} */}
+        {search.length === 0 ? (
+          <ChatList boxWidth={boxWidth} />
+        ) : loading ? (
           <ChatLoading />
         ) : (
           searchResult.map((user) => {
@@ -189,6 +213,8 @@ const MyChats = ({}: Props) => {
           })
         )}
       </div>
+
+      <>{counter === 0 ? '' : <ErrorDisplay errMessage={errorMessage} rerender={counter} />}</>
     </div>
   )
 }
