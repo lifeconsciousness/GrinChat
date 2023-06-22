@@ -21,17 +21,13 @@ import {
 import { BellIcon, ChevronDownIcon, HamburgerIcon } from '@chakra-ui/icons'
 import ProfileModal from '../components/misc/ProfileModal'
 import useLogout from '../components/Authentication/Logout'
-
+import useForceUpdate from '../components/misc/ForceUpdate'
 const ChatPage = () => {
   const { user } = ChatState()
   const logout = useLogout()
   const forceUpdate = useForceUpdate()
 
   useEffect(() => {
-    // const handleResize = () => {
-    //   location.reload()
-    // }
-
     window.addEventListener('resize', forceUpdate)
 
     return () => {
@@ -79,11 +75,6 @@ const ChatPage = () => {
       </nav>
     </div>
   )
-}
-
-function useForceUpdate() {
-  const [value, setValue] = useState(0) // integer state
-  return () => setValue((value) => value + 1) // update state to force render
 }
 
 export default ChatPage

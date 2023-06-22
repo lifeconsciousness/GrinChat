@@ -12,6 +12,11 @@ const ChatList = ({ boxWidth }: Props) => {
   const [loggedUser, setLoggedUser] = useState<string | null>(null)
   const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState()
 
+  useEffect(() => {
+    console.log('element mounted')
+    console.log(chats)
+  }, [])
+
   //error handling boilerplate
   const [errorMessage, setErrorMessage] = useState('')
   const [counter, setCounter] = useState(0)
@@ -52,11 +57,12 @@ const ChatList = ({ boxWidth }: Props) => {
           <div key={chat._id} style={{ backgroundColor: selectedChat === chat ? 'rgba(28, 74, 225, 0.247)' : '' }}>
             <UserListItem
               key={chat._id}
-              user={chat.name}
+              user={chat}
               handleFunction={() => {
                 setSelectedChat(chat)
               }}
               chatListWidth={boxWidth}
+              isSearching={true}
             />
           </div>
         )

@@ -51,6 +51,14 @@ const MyChats = ({}: Props) => {
     setCounter(counter + 1)
   }
 
+  useEffect(() => {
+    setSearch('a')
+
+    setTimeout(() => {
+      setSearch('')
+    }, 1)
+  }, [])
+
   /////////////////////////////////////////////adjustable width of chat list
   const boxRef = useRef<HTMLDivElement | null>(null)
   const borderRef = useRef<HTMLDivElement | null>(null)
@@ -151,7 +159,7 @@ const MyChats = ({}: Props) => {
     setSearch(e.target.value)
   }
 
-  const accessChat = async (userId: string) => {
+  const accessChat = async (secondUser: object) => {
     console.log(user._id)
     try {
       setloadingChat(true)
@@ -163,7 +171,7 @@ const MyChats = ({}: Props) => {
         },
       }
 
-      const { data } = await axios.post('/api/chats', { userId }, config)
+      const { data } = await axios.post('/api/chats', { secondUser }, config)
       console.log(data)
 
       if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats])
@@ -205,9 +213,10 @@ const MyChats = ({}: Props) => {
                 key={user._id}
                 user={user}
                 handleFunction={() => {
-                  accessChat(user._id)
+                  accessChat(user)
                 }}
                 chatListWidth={boxWidth}
+                isSearching={false}
               />
             )
           })
