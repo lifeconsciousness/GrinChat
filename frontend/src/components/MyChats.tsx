@@ -1,4 +1,4 @@
-import { BellIcon, HamburgerIcon, Search2Icon } from '@chakra-ui/icons'
+import { BellIcon, CloseIcon, HamburgerIcon, Search2Icon } from '@chakra-ui/icons'
 import {
   Avatar,
   Drawer,
@@ -30,7 +30,7 @@ import ErrorDisplay from './Authentication/ErrorDisplay'
 type Props = {}
 
 const MyChats = ({}: Props) => {
-  const { user, setSelectedChat, chats, setChats } = ChatState()
+  const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState()
 
   interface User {
     _id: string
@@ -64,7 +64,7 @@ const MyChats = ({}: Props) => {
   const borderRef = useRef<HTMLDivElement | null>(null)
   const [isResizing, setIsResizing] = useState(false)
   const [lastX, setLastX] = useState(0)
-  const [boxWidth, setboxWidth] = useState<number>()
+  const [boxWidth, setboxWidth] = useState<number>(Number(localStorage.getItem('chatListWidth')))
 
   useEffect(() => {
     const box = boxRef.current
@@ -177,6 +177,7 @@ const MyChats = ({}: Props) => {
       if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats])
 
       setSelectedChat(data)
+      localStorage.setItem('selectedChat', JSON.stringify(data))
       setloadingChat(false)
     } catch (error) {
       sendErrorText('Failed to load chat')
@@ -198,6 +199,16 @@ const MyChats = ({}: Props) => {
           // onChange={(e) => setSearch(e.target.value)}
           onChange={(e) => handleSearch(e)}
         />
+        <CloseIcon
+          color="black"
+          position="absolute"
+          left={boxWidth && boxWidth - 40}
+          top="17px"
+          cursor="pointer"
+          onClick={() => {
+            setSearch('')
+          }}
+        />
       </div>
 
       <div className="chats">
@@ -214,6 +225,7 @@ const MyChats = ({}: Props) => {
                 user={user}
                 handleFunction={() => {
                   accessChat(user)
+                  setSearch('')
                 }}
                 chatListWidth={boxWidth}
                 isSearching={false}

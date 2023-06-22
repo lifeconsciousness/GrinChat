@@ -1,5 +1,6 @@
 import { Avatar } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
+import { ChatState } from '../../context/ChatProvider'
 
 type Props = {
   user: any
@@ -9,6 +10,8 @@ type Props = {
 }
 
 const UserListItem = ({ user, handleFunction, chatListWidth, isSearching }: Props) => {
+  const { selectedChat, setSelectedChat } = ChatState()
+
   const [sidebarWidth, setsidebarWidth] = useState<Number>()
   const [nameWidth, setNameWidth] = useState<Number>()
   const sidebarCutoff = screen.width <= 520 ? 500 : 145

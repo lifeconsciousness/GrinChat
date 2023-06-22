@@ -3,6 +3,7 @@ import { ChatState } from '../context/ChatProvider'
 import axios from 'axios'
 import ErrorDisplay from './Authentication/ErrorDisplay'
 import UserListItem from './User/UserListItem'
+import isEqual from 'lodash/isEqual'
 
 type Props = {
   boxWidth: any
@@ -11,11 +12,6 @@ type Props = {
 const ChatList = ({ boxWidth }: Props) => {
   const [loggedUser, setLoggedUser] = useState<string | null>(null)
   const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState()
-
-  useEffect(() => {
-    console.log('element mounted')
-    console.log(chats)
-  }, [])
 
   //error handling boilerplate
   const [errorMessage, setErrorMessage] = useState('')
@@ -43,6 +39,9 @@ const ChatList = ({ boxWidth }: Props) => {
   }
 
   useEffect(() => {
+    console.log(chats)
+    console.log(selectedChat)
+
     const userInfo = localStorage.getItem('userInfo')
     if (userInfo) {
       setLoggedUser(JSON.parse(userInfo))
@@ -54,7 +53,22 @@ const ChatList = ({ boxWidth }: Props) => {
     <div>
       {chats.map((chat) => {
         return (
-          <div key={chat._id} style={{ backgroundColor: selectedChat === chat ? 'rgba(28, 74, 225, 0.247)' : '' }}>
+          <div
+            key={chat._id}
+            style={{
+              backgroundColor:
+                selectedChat === chat ||
+                (localStorage.getItem('selectedChat') !== null &&
+                  isEqual(JSON.parse(localStorage.getItem('selectedChat') || ''), chat))
+                  ? 'rgba(28, 74, 225, 0.247)'
+                  : '',
+
+              // backgroundColor:
+              //   selectedChat === chat || JSON.parse(localStorage.getItem('selectedChat') ?? '') === chat
+              //     ? 'rgba(28, 74, 225, 0.247)'
+              //     : '',
+            }}
+          >
             <UserListItem
               key={chat._id}
               user={chat}
