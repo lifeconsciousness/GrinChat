@@ -74,11 +74,12 @@ const SideDrawer = ({ user }: Props) => {
 
             <Divider marginBottom="10px" />
 
-            <p>Some contents...</p>
-            <p>Some contents...</p>
+            <button className="logout-drawer" onClick={logout}>
+              New group
+            </button>
 
             <div className="logout-and-rest">
-              <p>Some contents...</p>
+              <p>Last button in the list</p>
               <button className="logout-drawer" onClick={logout}>
                 Log out
               </button>

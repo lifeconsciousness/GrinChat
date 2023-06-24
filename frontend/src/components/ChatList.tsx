@@ -40,7 +40,6 @@ const ChatList = ({ boxWidth }: Props) => {
 
   useEffect(() => {
     console.log(chats)
-    console.log(selectedChat)
 
     const userInfo = localStorage.getItem('userInfo')
     if (userInfo) {
@@ -51,22 +50,14 @@ const ChatList = ({ boxWidth }: Props) => {
 
   return (
     <div>
-      {chats.map((chat) => {
-        return (
+      {chats.length === 0 ? (
+        <div>Loading chats...</div>
+      ) : (
+        chats.map((chat) => (
           <div
             key={chat._id}
             style={{
-              backgroundColor:
-                selectedChat === chat ||
-                (localStorage.getItem('selectedChat') !== null &&
-                  isEqual(JSON.parse(localStorage.getItem('selectedChat') || ''), chat))
-                  ? 'rgba(28, 74, 225, 0.247)'
-                  : '',
-
-              // backgroundColor:
-              //   selectedChat === chat || JSON.parse(localStorage.getItem('selectedChat') ?? '') === chat
-              //     ? 'rgba(28, 74, 225, 0.247)'
-              //     : '',
+              backgroundColor: selectedChat === chat ? 'rgba(28, 74, 225, 0.247)' : 'rgb(25, 22, 36)',
             }}
           >
             <UserListItem
@@ -79,9 +70,9 @@ const ChatList = ({ boxWidth }: Props) => {
               isSearching={true}
             />
           </div>
-        )
-      })}
-      <>{counter === 0 ? '' : <ErrorDisplay errMessage={errorMessage} rerender={counter} />}</>
+        ))
+      )}
+      {counter === 0 ? null : <ErrorDisplay errMessage={errorMessage} rerender={counter} />}
     </div>
   )
 }

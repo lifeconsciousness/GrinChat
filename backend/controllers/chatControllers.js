@@ -3,59 +3,12 @@ const Chat = require('../models/chatModel')
 const User = require('../models/userModel')
 
 //access/create a personal chat with other user
-const accessChat = asyncHandler(async (req, res) => {
-  //id of the other user
-  const { secondUser } = req.body
-
-  if (!secondUser) {
-    console.log('secondUser param not sent with request')
-    return res.sendStatus(400)
-  }
-
-  let isPersonalChat = await Chat.find({
-    isGroupChat: false,
-    /////////////////////////////////can try to change this to $or later to be able to text yourself
-    $and: [
-      { users: { $elemMatch: { $eq: req.user._id } } }, //id of logged in user
-      { users: { $elemMatch: { $eq: secondUser._id } } }, //id of another user
-    ],
-  })
-    .populate('users', '-password')
-    .populate('latestMessage')
-
-  // .populate() gets the data from a database and assigns it to a variable
-  isPersonalChat = await User.populate(isPersonalChat, {
-    path: 'latestMessage.sender',
-    select: 'name picture email',
-  })
-
-  if (isPersonalChat.length > 0) {
-    res.send(isPersonalChat[0])
-  } else {
-    const chatData = {
-      chatName: secondUser.name,
-      isGroupChat: false,
-      users: [req.user._id, secondUser._id],
-    }
-
-    try {
-      const createdChat = await Chat.create(chatData)
-
-      const fullChat = await Chat.findOne({ _id: createdChat._id }).populate('users', '-password')
-      res.status(200).send(fullChat)
-    } catch (error) {
-      res.status(400)
-      throw new Error(error.message)
-    }
-  }
-})
-
 // const accessChat = asyncHandler(async (req, res) => {
 //   //id of the other user
-//   const { userId } = req.body
+//   const { secondUser } = req.body
 
-//   if (!userId) {
-//     console.log('UserId param not sent with request')
+//   if (!secondUser) {
+//     console.log('secondUser param not sent with request')
 //     return res.sendStatus(400)
 //   }
 
@@ -64,7 +17,7 @@ const accessChat = asyncHandler(async (req, res) => {
 //     /////////////////////////////////can try to change this to $or later to be able to text yourself
 //     $and: [
 //       { users: { $elemMatch: { $eq: req.user._id } } }, //id of logged in user
-//       { users: { $elemMatch: { $eq: userId } } }, //id of another user
+//       { users: { $elemMatch: { $eq: secondUser._id } } }, //id of another user
 //     ],
 //   })
 //     .populate('users', '-password')
@@ -80,9 +33,9 @@ const accessChat = asyncHandler(async (req, res) => {
 //     res.send(isPersonalChat[0])
 //   } else {
 //     const chatData = {
-//       chatName: req.user.name,
+//       chatName: secondUser.name,
 //       isGroupChat: false,
-//       users: [req.user._id, userId],
+//       users: [req.user._id, secondUser._id],
 //     }
 
 //     try {
@@ -96,6 +49,53 @@ const accessChat = asyncHandler(async (req, res) => {
 //     }
 //   }
 // })
+
+const accessChat = asyncHandler(async (req, res) => {
+  //id of the other user
+  const { userId } = req.body
+
+  if (!userId) {
+    console.log('UserId param not sent with request')
+    return res.sendStatus(400)
+  }
+
+  let isPersonalChat = await Chat.find({
+    isGroupChat: false,
+    /////////////////////////////////can try to change this to $or later to be able to text yourself
+    $and: [
+      { users: { $elemMatch: { $eq: req.user._id } } }, //id of logged in user
+      { users: { $elemMatch: { $eq: userId } } }, //id of another user
+    ],
+  })
+    .populate('users', '-password')
+    .populate('latestMessage')
+
+  // .populate() gets the data from a database and assigns it to a variable
+  isPersonalChat = await User.populate(isPersonalChat, {
+    path: 'latestMessage.sender',
+    select: 'name picture email',
+  })
+
+  if (isPersonalChat.length > 0) {
+    res.send(isPersonalChat[0])
+  } else {
+    const chatData = {
+      chatName: 'sender',
+      isGroupChat: false,
+      users: [req.user._id, userId],
+    }
+
+    try {
+      const createdChat = await Chat.create(chatData)
+
+      const fullChat = await Chat.findOne({ _id: createdChat._id }).populate('users', '-password')
+      res.status(200).send(fullChat)
+    } catch (error) {
+      res.status(400)
+      throw new Error(error.message)
+    }
+  }
+})
 
 const fetchChats = asyncHandler(async (req, res) => {
   try {

@@ -159,7 +159,7 @@ const MyChats = ({}: Props) => {
     setSearch(e.target.value)
   }
 
-  const accessChat = async (secondUser: object) => {
+  const accessChat = async (userId: string) => {
     console.log(user._id)
     try {
       setloadingChat(true)
@@ -171,7 +171,7 @@ const MyChats = ({}: Props) => {
         },
       }
 
-      const { data } = await axios.post('/api/chats', { secondUser }, config)
+      const { data } = await axios.post('/api/chats', { userId }, config)
       console.log(data)
 
       if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats])
@@ -199,7 +199,7 @@ const MyChats = ({}: Props) => {
           // onChange={(e) => setSearch(e.target.value)}
           onChange={(e) => handleSearch(e)}
         />
-        <CloseIcon
+        {/* <CloseIcon
           color="black"
           position="absolute"
           left={boxWidth && boxWidth - 40}
@@ -208,7 +208,7 @@ const MyChats = ({}: Props) => {
           onClick={() => {
             setSearch('')
           }}
-        />
+        /> */}
       </div>
 
       <div className="chats">
@@ -224,7 +224,7 @@ const MyChats = ({}: Props) => {
                 key={user._id}
                 user={user}
                 handleFunction={() => {
-                  accessChat(user)
+                  accessChat(user._id)
                   setSearch('')
                 }}
                 chatListWidth={boxWidth}

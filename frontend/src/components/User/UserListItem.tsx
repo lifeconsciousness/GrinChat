@@ -1,6 +1,7 @@
 import { Avatar } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { ChatState } from '../../context/ChatProvider'
+import { getSender } from '../config/ChatLogic'
 
 type Props = {
   user: any
@@ -11,6 +12,7 @@ type Props = {
 
 const UserListItem = ({ user, handleFunction, chatListWidth, isSearching }: Props) => {
   const { selectedChat, setSelectedChat } = ChatState()
+  const [loggedUser, setLoggedUser] = useState()
 
   const [sidebarWidth, setsidebarWidth] = useState<Number>()
   const [nameWidth, setNameWidth] = useState<Number>()
@@ -18,6 +20,11 @@ const UserListItem = ({ user, handleFunction, chatListWidth, isSearching }: Prop
   const nameCutoff = -160
 
   useEffect(() => {
+    const userInfo = localStorage.getItem('userInfo')
+    if (userInfo !== null) {
+      setLoggedUser(JSON.parse(userInfo))
+    }
+
     const savedWidth = Number(localStorage.getItem('chatListWidth')) - sidebarCutoff
 
     setsidebarWidth(savedWidth)
@@ -37,6 +44,7 @@ const UserListItem = ({ user, handleFunction, chatListWidth, isSearching }: Prop
         <Avatar
           size="md"
           name={user?.name}
+          // src={isSearching ? user?.users[1]?.picture : user?.picture}
           src={isSearching ? user?.users[1]?.picture : user?.picture}
           className="avatar"
           userSelect="none"
@@ -53,7 +61,8 @@ const UserListItem = ({ user, handleFunction, chatListWidth, isSearching }: Prop
               style={{ maxWidth: `${screen.width <= 520 ? screen.width - 170 : nameWidth}px` }}
               className="username-in-chatlist"
             >
-              {isSearching ? user?.chatName : user?.name}
+              {/* {isSearching ? user?.chatName : user?.name} */}
+              {!user?.isGroupChat ? getSender(loggedUser, user, isSearching) : user?.chatName}
             </p>
             <p style={{ opacity: 0.3, fontSize: '70%' }}>13:20</p>
           </div>

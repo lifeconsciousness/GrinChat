@@ -215,7 +215,7 @@
   justify-content: space-between;
 }
 
-.logout-drawer {
+@mixin black-white-button {
   text-align: start;
   width: fit-content;
   border: 1px solid #f42e2e00;
@@ -231,4 +231,8 @@
     transition: all 0.5s;
     border-radius: 50px;
   }
+}
+
+.logout-drawer {
+  @include black-white-button;
 }
