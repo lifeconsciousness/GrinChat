@@ -6,12 +6,10 @@ import { getSender } from '../config/ChatLogic'
 type Props = {
   user: any
   handleFunction: any
-  chatListWidth: number | undefined
   isSearching: boolean
 }
 
-const UserListItem = ({ user, handleFunction, chatListWidth, isSearching }: Props) => {
-  const { selectedChat, setSelectedChat } = ChatState()
+const UserListItemSearch = ({ user, handleFunction, isSearching }: Props) => {
   const [loggedUser, setLoggedUser] = useState()
 
   const [sidebarWidth, setsidebarWidth] = useState<Number>()
@@ -30,13 +28,6 @@ const UserListItem = ({ user, handleFunction, chatListWidth, isSearching }: Prop
     setsidebarWidth(savedWidth)
     setNameWidth(savedWidth - nameCutoff - sidebarCutoff)
   }, [])
-
-  useEffect(() => {
-    if (chatListWidth) {
-      setsidebarWidth((chatListWidth -= sidebarCutoff))
-      setNameWidth((chatListWidth -= nameCutoff + sidebarCutoff))
-    }
-  }, [chatListWidth])
 
   return (
     <div onClick={handleFunction} className="personal-chat-in-list">
@@ -84,9 +75,4 @@ const UserListItem = ({ user, handleFunction, chatListWidth, isSearching }: Prop
   )
 }
 
-// function useForceUpdate() {
-//   const [value, setValue] = useState(0) // integer state
-//   return () => setValue((value) => value + 1) // update state to force render
-// }
-
-export default UserListItem
+export default UserListItemSearch

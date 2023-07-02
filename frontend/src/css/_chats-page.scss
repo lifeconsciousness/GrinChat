@@ -215,24 +215,69 @@
   justify-content: space-between;
 }
 
-@mixin black-white-button {
-  text-align: start;
-  width: fit-content;
-  border: 1px solid #f42e2e00;
-  padding: 7px;
-  font-size: 110%;
-  transition: all 0.3s;
-  transform: translateX(-7px);
+.logout-drawer {
+  @include black-white-button;
+}
+
+.create-group-btn {
+  padding: 0.5em 1em;
+  border-radius: 50px;
+  color: white;
+  @include gradient-transparent;
+  @include gradient-bg;
+  transition: background-color 0.3s;
 
   &:hover {
-    border: 1px solid rgb(243, 243, 243);
-    color: white;
     background-color: black;
-    transition: all 0.5s;
-    border-radius: 50px;
+    transition: 0.5s;
   }
 }
 
-.logout-drawer {
+.cancel-btn {
   @include black-white-button;
+  border-radius: 50px;
+  border: 1px solid rgba(0, 0, 0, 0.713);
+}
+
+//group creatinon
+
+.modal-window {
+  height: 9000px !important;
+}
+
+.user-list {
+  overflow: hidden;
+  overflow-y: scroll;
+  max-height: 210px;
+  height: 100%;
+  scrollbar-width: thin !important;
+}
+
+.user-list-container {
+  border: 1px solid black;
+  max-height: 210px;
+  height: 100%;
+}
+
+.username-group-add {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 80px !important;
+}
+
+.selected-users-group-chat {
+  width: 100%;
+  max-height: 60px;
+  height: 100%;
+  margin-top: 2px;
+
+  overflow: hidden;
+  overflow-y: scroll;
+
+  border: 1px solid black;
+  border-radius: 10px;
+  border-radius: 0;
+  border-bottom: none;
+  padding: 5px;
 }

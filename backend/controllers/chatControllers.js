@@ -121,11 +121,11 @@ const fetchChats = asyncHandler(async (req, res) => {
 
 const createGroupChat = asyncHandler(async (req, res) => {
   if (!req.body.users || !req.body.chatName) {
-    return res.status(400).send({ message: 'Please fill in all the fields' })
+    return res.status(400).send({ message: 'One or multiple parameters are missing' })
   }
 
   //get user array from the body of post reqest
-  let users = req.body.users
+  let users = JSON.parse(req.body.users)
 
   if (users.length < 2) {
     return res.status(400).send('More than two users are needed to create a group chat')

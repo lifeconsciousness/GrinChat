@@ -60,6 +60,7 @@ const MyChats = ({}: Props) => {
   }, [])
 
   /////////////////////////////////////////////adjustable width of chat list
+
   const boxRef = useRef<HTMLDivElement | null>(null)
   const borderRef = useRef<HTMLDivElement | null>(null)
   const [isResizing, setIsResizing] = useState(false)
@@ -128,7 +129,7 @@ const MyChats = ({}: Props) => {
 
   /////////////////////////////////////////////////////////////////////////
 
-  /////searching other users
+  /////searching for other users
 
   useEffect(() => {
     const fetchData = async () => {
@@ -199,16 +200,17 @@ const MyChats = ({}: Props) => {
           // onChange={(e) => setSearch(e.target.value)}
           onChange={(e) => handleSearch(e)}
         />
-        {/* <CloseIcon
+        <CloseIcon
           color="black"
           position="absolute"
           left={boxWidth && boxWidth - 40}
+          right="40px !important"
           top="17px"
           cursor="pointer"
           onClick={() => {
             setSearch('')
           }}
-        /> */}
+        />
       </div>
 
       <div className="chats">

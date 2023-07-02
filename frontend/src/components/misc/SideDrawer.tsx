@@ -21,6 +21,7 @@ import {
 import { BellIcon, HamburgerIcon } from '@chakra-ui/icons'
 import ProfileModal from './ProfileModal'
 import useLogout from '../Authentication/Logout'
+import GroupChatModal from './GroupChatModal'
 
 type Props = {
   user: any
@@ -74,9 +75,9 @@ const SideDrawer = ({ user }: Props) => {
 
             <Divider marginBottom="10px" />
 
-            <button className="logout-drawer" onClick={logout}>
-              New group
-            </button>
+            <GroupChatModal>
+              <button className="logout-drawer">New group chat</button>
+            </GroupChatModal>
 
             <div className="logout-and-rest">
               <p>Last button in the list</p>

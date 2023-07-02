@@ -9,3 +9,54 @@
   min-height: 100vh;
   min-width: 100vw;
 }
+
+@mixin gradient {
+  background: linear-gradient(124deg, #ff2400, #e81d1d, #e8b71d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3);
+}
+@mixin gradient-transparent {
+  background: linear-gradient(
+    124deg,
+    #ff2200c9,
+    #e81d1dc4,
+    #e8b91dc2,
+    #1de83fbb,
+    #1ddee8b7,
+    #2b1de8bf,
+    #df00f3b6,
+    #df00f3bd
+  );
+}
+
+@mixin gradient-bg {
+  background-size: 1900% 1900%;
+  animation: rainbowAnim 90s ease infinite;
+  @keyframes rainbowAnim {
+    0% {
+      background-position: 0% 82%;
+    }
+    50% {
+      background-position: 100% 19%;
+    }
+    100% {
+      background-position: 0% 82%;
+    }
+  }
+}
+
+@mixin black-white-button {
+  text-align: start;
+  width: fit-content;
+  border: 1px solid #f42e2e00;
+  padding: 7px;
+  font-size: 110%;
+  transition: all 0.3s;
+  transform: translateX(-7px);
+
+  &:hover {
+    border: 1px solid rgb(243, 243, 243);
+    color: white;
+    background-color: black;
+    transition: all 0.5s;
+    border-radius: 50px;
+  }
+}
