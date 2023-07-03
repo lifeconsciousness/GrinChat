@@ -27,9 +27,11 @@ import UserListItem from './User/UserListItem'
 import ChatList from './ChatList'
 import ErrorDisplay from './Authentication/ErrorDisplay'
 
-type Props = {}
+type Props = {
+  fetchAgain: any
+}
 
-const MyChats = ({}: Props) => {
+const MyChats = ({ fetchAgain }: Props) => {
   const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState()
 
   interface User {
@@ -98,7 +100,7 @@ const MyChats = ({}: Props) => {
       const mouseOffsetX = containerRight - e.clientX
       const newWidth = containerRight - box.getBoundingClientRect().left - mouseOffsetX
 
-      if (newWidth >= 280 && newWidth <= screen.width / 2) {
+      if (newWidth >= 280 && newWidth <= window.innerWidth / 2) {
         box.style.width = `${newWidth}px`
         setLastX(e.clientX)
         setboxWidth(newWidth)
@@ -186,7 +188,15 @@ const MyChats = ({}: Props) => {
   }
 
   return (
-    <div className="chats-container" ref={boxRef}>
+    <div
+      className="chats-container"
+      ref={boxRef}
+      style={{
+        display: screen.width <= 520 ? (selectedChat ? 'none' : 'block') : 'block',
+        // width: screen.width <= 520 ? (selectedChat ? '0% !important' : '100% !important') : '100% !important',
+        // backgroundColor: screen.width <= 520 ? (selectedChat ? 'blue' : 'green') : 'yellow',
+      }}
+    >
       <div className="right-border" ref={borderRef}></div>
 
       <div className="hamburger-and-chat">
@@ -197,26 +207,29 @@ const MyChats = ({}: Props) => {
           placeholder="Search"
           className="search-field"
           value={search}
-          // onChange={(e) => setSearch(e.target.value)}
           onChange={(e) => handleSearch(e)}
         />
-        <CloseIcon
-          color="black"
-          position="absolute"
-          left={boxWidth && boxWidth - 40}
-          right="40px !important"
-          top="17px"
-          cursor="pointer"
-          onClick={() => {
-            setSearch('')
-          }}
-        />
+        {search.length >= 1 ? (
+          <CloseIcon
+            className="appear"
+            color="black"
+            position="absolute"
+            opacity={0.85}
+            right="10px"
+            top="17px"
+            cursor="pointer"
+            onClick={() => {
+              setSearch('')
+            }}
+          />
+        ) : (
+          ''
+        )}
       </div>
 
       <div className="chats">
-        {/* {searchResult.length === 0 && <p className="start-message-in-chats">Message someone</p>} */}
         {search.length === 0 ? (
-          <ChatList boxWidth={boxWidth} />
+          <ChatList boxWidth={boxWidth} fetchAgain={fetchAgain} />
         ) : loading ? (
           <ChatLoading />
         ) : (

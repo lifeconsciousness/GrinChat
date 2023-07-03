@@ -18,14 +18,16 @@ import {
   DrawerHeader,
   DrawerBody,
 } from '@chakra-ui/react'
-import { BellIcon, ChevronDownIcon, HamburgerIcon } from '@chakra-ui/icons'
+import { ArrowBackIcon, BellIcon, ChevronDownIcon, HamburgerIcon } from '@chakra-ui/icons'
 import ProfileModal from '../components/misc/ProfileModal'
 import useLogout from '../components/Authentication/Logout'
 import useForceUpdate from '../components/misc/ForceUpdate'
+
 const ChatPage = () => {
-  const { user } = ChatState()
+  const { user, selectedChat, setSelectedChat } = ChatState()
   const logout = useLogout()
   const forceUpdate = useForceUpdate()
+  const [fetchAgain, setFetchAgain] = useState(false)
 
   useEffect(() => {
     window.addEventListener('resize', forceUpdate)
@@ -37,17 +39,18 @@ const ChatPage = () => {
 
   return (
     <div className="chats-page">
-      <MyChats />
+      <MyChats fetchAgain={fetchAgain} />
 
-      {/* <Show breakpoint="(min-width: 520px)" sx={{ font: 'inherit' }}></Show> */}
-
-      <nav className="navigation-panel">
-        <div className="options">
+      <nav
+        className="navigation-panel"
+        style={{ display: screen.width <= 520 ? (selectedChat ? 'block' : 'none') : 'block' }}
+      >
+        {/* <div className="options">
           <Menu>
             <MenuButton>
               <BellIcon fontSize="3xl" m={1} className="bell" userSelect="none" />
             </MenuButton>
-            {/* <MenuList></MenuList> */}
+            <MenuList></MenuList>
           </Menu>
           <Menu>
             <MenuButton color={'black'}>
@@ -69,9 +72,9 @@ const ChatPage = () => {
               <MenuItem onClick={logout}>Log out</MenuItem>
             </MenuList>
           </Menu>
-        </div>
+        </div> */}
 
-        <ChatBox />
+        <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
       </nav>
     </div>
   )

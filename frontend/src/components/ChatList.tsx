@@ -6,10 +6,11 @@ import UserListItem from './User/UserListItem'
 import isEqual from 'lodash/isEqual'
 
 type Props = {
-  boxWidth: any
+  boxWidth: number
+  fetchAgain: boolean
 }
 
-const ChatList = ({ boxWidth }: Props) => {
+const ChatList = ({ boxWidth, fetchAgain }: Props) => {
   const [loggedUser, setLoggedUser] = useState<string | null>(null)
   const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState()
 
@@ -46,7 +47,7 @@ const ChatList = ({ boxWidth }: Props) => {
       setLoggedUser(JSON.parse(userInfo))
       fetchChats()
     }
-  }, [])
+  }, [fetchAgain])
 
   return (
     <div>
