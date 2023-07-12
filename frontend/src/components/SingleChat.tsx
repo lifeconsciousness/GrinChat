@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ChatState } from '../context/ChatProvider'
-import { Menu, MenuButton } from '@chakra-ui/react'
+import { Avatar, Menu, MenuButton } from '@chakra-ui/react'
 import { ArrowBackIcon } from '@chakra-ui/icons'
-import { getSender } from './config/ChatLogic'
+import { getSender, getSenderFull } from './config/ChatLogic'
+import ProfileModal from './misc/ProfileModal'
+import UpdateGroupModal from './misc/UpdateGroupModal'
 
 type Props = {
   fetchAgain: boolean
@@ -10,31 +12,70 @@ type Props = {
 }
 
 const SingleChat = ({ fetchAgain, setFetchAgain }: Props) => {
-  const { user, selectedChat, setSelectedChat, loggedUser, isSearching } = ChatState()
+  const { user, selectedChat, setSelectedChat, loggedUser, isSearching, selectedUser } = ChatState()
+
+  useEffect(() => {
+    console.log(selectedChat)
+  }, [selectedChat])
 
   return (
     <>
       {selectedChat ? (
         <div className="single-chat-container">
-          <div className="chat-top-panel">
-            {screen.width <= 520 && selectedChat ? (
-              <Menu>
-                <MenuButton
-                  left={2}
-                  top={2}
-                  position="absolute"
-                  onClick={() => {
-                    setSelectedChat('')
-                  }}
-                >
-                  <ArrowBackIcon fontSize="4xl" />
-                </MenuButton>
-              </Menu>
-            ) : (
-              ''
-            )}
-          </div>
-          {!user?.isGroupChat ? getSender(loggedUser, user, isSearching) : user?.chatName}
+          {!selectedChat.isGroupChat ? (
+            <ProfileModal user={getSenderFull(user, selectedChat.users)}>
+              <div className="chat-top-panel" style={{ cursor: 'pointer' }}>
+                {screen.width <= 520 && selectedChat ? (
+                  <Menu>
+                    <MenuButton
+                      left={2}
+                      top={2}
+                      position="absolute"
+                      onClick={() => {
+                        setSelectedChat('')
+                      }}
+                    >
+                      <ArrowBackIcon fontSize="4xl" />
+                    </MenuButton>
+                  </Menu>
+                ) : (
+                  ''
+                )}
+
+                <p className="username-group-add" style={{ maxWidth: window.innerWidth / 2 - 30, fontSize: '85%' }}>
+                  {selectedChat.isGroupChat ? selectedChat.chatName : selectedChat.users[1].name}
+                </p>
+              </div>
+            </ProfileModal>
+          ) : (
+            <UpdateGroupModal fetchAgain={fetchAgain} setFetchAgain={setFetchAgain}>
+              <div className="chat-top-panel" style={{ cursor: 'pointer' }}>
+                {screen.width <= 520 && selectedChat ? (
+                  <Menu>
+                    <MenuButton
+                      left={2}
+                      top={2}
+                      position="absolute"
+                      onClick={() => {
+                        setSelectedChat('')
+                      }}
+                    >
+                      <ArrowBackIcon fontSize="4xl" />
+                    </MenuButton>
+                  </Menu>
+                ) : (
+                  ''
+                )}
+
+                <p className="username-group-add" style={{ maxWidth: window.innerWidth / 2 - 30, fontSize: '85%' }}>
+                  {selectedChat.isGroupChat ? selectedChat.chatName : selectedChat.users[1].name}
+                </p>
+              </div>
+            </UpdateGroupModal>
+          )}
+
+          <div className="chat-messages">message</div>
+          {/* chat itself */}
         </div>
       ) : (
         <p

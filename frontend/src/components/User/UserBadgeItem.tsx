@@ -1,5 +1,5 @@
 import { CloseIcon } from '@chakra-ui/icons'
-import { Box } from '@chakra-ui/react'
+import { Avatar, Box } from '@chakra-ui/react'
 import React from 'react'
 
 type Props = {
@@ -25,9 +25,13 @@ const UserBadgeItem = ({ user, handleFunction }: Props) => {
       display="flex"
       alignItems="center"
       gap="5px"
+      paddingTop="2px"
+      paddingBottom="2px"
+      paddingLeft="2px"
     >
+      <Avatar size="sm" name={user?.name} src={user?.picture} className="avatar" userSelect="none" />
       <p className="username-group-add">{user.name}</p>
-      <CloseIcon />
+      <CloseIcon className="user-badge-close-icon" />
     </Box>
   )
 }

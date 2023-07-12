@@ -60,7 +60,16 @@ const GroupChatModal = ({ children }: Props) => {
       console.log(data)
       setLoading(false)
       setSearchResult(data)
-    } catch (error) {}
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: error.response.data.message,
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+        position: 'bottom',
+      })
+    }
   }
 
   const fetchChats = async () => {

@@ -15,9 +15,9 @@ const router = express.Router()
 router.route('/').post(protect, accessChat)
 router.route('/').get(protect, fetchChats)
 router.route('/group').post(protect, createGroupChat)
-router.route('/renamegroup').put(protect, renameGroupChat)
-router.route('/addtogroup').put(protect, addToGroupChat)
-router.route('/removefromgroup').put(protect, removeFromGroupChat)
+router.route('/rename').put(protect, renameGroupChat)
+router.route('/groupadd').put(protect, addToGroupChat)
+router.route('/groupremove').put(protect, removeFromGroupChat)
 router.route('/deletechat').delete(protect, deleteChat)
 
 module.exports = router

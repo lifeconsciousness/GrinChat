@@ -214,6 +214,16 @@
   @include black-white-button;
 }
 
+.apply-button {
+  @include black-white-button;
+  padding: 1px 4px;
+  font-size: 95%;
+  margin-left: 5px;
+  border: 1px solid black;
+  height: 32px;
+  transform: translateX(0px);
+}
+
 .create-group-btn {
   padding: 0.5em 1em;
   border-radius: 50px;
@@ -258,7 +268,9 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 80px !important;
+  // max-width: 80px !important;
+  max-width: 62px;
+  font-size: 90%;
 }
 
 .selected-users-group-chat {
@@ -286,7 +298,15 @@
 .chat-top-panel {
   width: 100%;
   height: 50px;
-  // background-color: rgba(255, 255, 255, 0.639);
+  background-color: rgba(157, 150, 150, 0.164);
+
+  padding-left: 50px;
+  display: flex;
+  align-items: center;
+
+  @media (min-width: 520px) {
+    padding-left: 15px;
+  }
 }
 
 .chat-box-anim {
@@ -322,4 +342,16 @@
 .fade-out {
   opacity: 0;
   transition: opacity 500ms ease-out;
+}
+
+//chatbox
+
+.chat-messages {
+  padding: 15px;
+}
+
+.user-badge-close-icon {
+  &:hover {
+    scale: 1.3;
+  }
 }
