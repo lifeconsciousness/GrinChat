@@ -4,7 +4,8 @@
   "description": "Realtime chat app with registration, storing messages in a database, group and personal chats.",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon backend/server.js"
+    "start": "nodemon backend/server.js",
+    "build": "cd frontend && npm install && npm run build"
   },
   "author": "Tovstolis Maksym",
   "license": "ISC",

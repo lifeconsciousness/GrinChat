@@ -1,12 +1,13 @@
 const express = require('express')
 const dotenv = require('dotenv')
-const { chats } = require('./data/data')
+// const { chats } = require('./data/data')
 const connectDB = require('./config/db')
 const colors = require('colors')
 const userRoutes = require('./routes/userRoutes')
 const chatRoutes = require('./routes/chatRoutes')
 const messageRoutes = require('./routes/messageRoutes')
 const { notFound, errorHandler } = require('./middlewares/errorMiddleware')
+const path = require('path')
 
 dotenv.config()
 connectDB()
@@ -14,29 +15,31 @@ const app = express()
 
 app.use(express.json()) //accept json data
 
-app.get('/', (req, res) => {
-  res.send('API is running')
-})
-
 app.use('/api/user', userRoutes)
 app.use('/api/chats', chatRoutes)
 app.use('/api/message', messageRoutes)
 
-app.use(notFound)
-app.use(errorHandler)
+// app.use(notFound)
+// app.use(errorHandler)
 
-// app.get('/api/chat', (req, res) => {
-//   res.send(chats)
-// })
+//deployment
 
-// app.get('/api/chat/:id', (req, res) => {
-//   const singleChat = chats.find((c) => c._id === req.params.id)
-//   res.send(singleChat)
-// })
+const __dirname1 = path.resolve()
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname1, '/dist')))
 
-const PORT = process.env.PORT || 10000
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname1, 'dist', 'index.html'))
+  })
+} else {
+  app.get('/', (req, res) => {
+    res.send('API is running')
+  })
+}
 
-const server = app.listen(7000, console.log(`Server stared on PORT ${PORT}`.yellow.bold))
+const PORT = process.env.PORT || 7000
+
+const server = app.listen(PORT, console.log(`Server stared on PORT ${PORT}`.yellow.bold))
 
 //socket.io
 
