@@ -18,7 +18,8 @@ type Props = {
 
 type Message = {}
 
-const ENDPOINT = 'http://localhost:7000'
+//change to website URL
+const ENDPOINT = 'https://grinchat-production.up.railway.app'
 let socket, selectedChatCompare
 
 const SingleChat = ({ fetchAgain, setFetchAgain }: Props) => {
