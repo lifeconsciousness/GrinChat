@@ -1,23 +1,4 @@
-import { BellIcon, CloseIcon, HamburgerIcon, Search2Icon } from '@chakra-ui/icons'
-import {
-  Avatar,
-  Drawer,
-  DrawerBody,
-  DrawerContent,
-  DrawerHeader,
-  DrawerOverlay,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Menu,
-  MenuButton,
-  MenuDivider,
-  MenuItem,
-  MenuList,
-  useBreakpointValue,
-  useDisclosure,
-  Divider,
-} from '@chakra-ui/react'
+import { CloseIcon } from '@chakra-ui/icons'
 import React, { ReactNode, useEffect, useRef, useState } from 'react'
 import { ChatState } from '../context/ChatProvider'
 import SideDrawer from './misc/SideDrawer'
@@ -67,7 +48,7 @@ const MyChats = ({ fetchAgain }: Props) => {
   const borderRef = useRef<HTMLDivElement | null>(null)
   const [isResizing, setIsResizing] = useState(false)
   const [lastX, setLastX] = useState(0)
-  const [boxWidth, setboxWidth] = useState<number>(Number(localStorage.getItem('chatListWidth')))
+  const [boxWidth, setboxWidth] = useState<number>(Number(localStorage.getItem('chatListWidth')) || 270)
 
   useEffect(() => {
     const box = boxRef.current
@@ -76,6 +57,11 @@ const MyChats = ({ fetchAgain }: Props) => {
     if (box && savedWidth) {
       box.style.width = `${Number(savedWidth)}px`
     }
+    // else {
+    //   if (box) {
+    //     box.style.width = `px`
+    //   }
+    // }
   }, [])
 
   useEffect(() => {

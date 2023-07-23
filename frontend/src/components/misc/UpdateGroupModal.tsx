@@ -32,13 +32,14 @@ type Props = {
   children: any
   fetchAgain: boolean
   setFetchAgain: any
+  fetchMessages: any
 }
 
 interface User {
   _id: string
 }
 
-const UpdateGroupModal = ({ children, fetchAgain, setFetchAgain }: Props) => {
+const UpdateGroupModal = ({ children, fetchAgain, setFetchAgain, fetchMessages }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [groupChatName, setGroupChatName] = useState('')
   const [search, setSearch] = useState('')
@@ -132,6 +133,7 @@ const UpdateGroupModal = ({ children, fetchAgain, setFetchAgain }: Props) => {
 
       user1._id === user._id ? setSelectedChat() : setSelectedChat(data)
       setFetchAgain(!fetchAgain)
+      fetchMessages()
       setLoading(false)
     } catch (error) {
       toast({

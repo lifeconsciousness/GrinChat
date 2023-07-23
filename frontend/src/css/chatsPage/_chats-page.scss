@@ -355,3 +355,61 @@
     scale: 1.3;
   }
 }
+
+.single-chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100svh;
+  justify-content: space-between;
+}
+
+.messages-and-send {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+}
+
+.input-and-send {
+  display: flex;
+}
+
+.send-icon {
+  filter: invert(100%);
+  width: 40px;
+  cursor: pointer;
+  margin-left: 7px;
+  transition: 0.1s;
+  z-index: 100;
+
+  position: absolute;
+  right: 15px;
+  width: 35px;
+  margin-top: 3px;
+
+  &:hover {
+    scale: 1.1;
+  }
+  &:active {
+    scale: 1.1;
+  }
+}
+
+.messages {
+  padding: 10px;
+  padding-top: 15px;
+  // display: flex;
+  // flex-direction: column;
+  // overflow-y: scroll;
+  // scrollbar-width: none;
+  color: rgb(109, 104, 104);
+}
+
+.message {
+  margin-bottom: 4px;
+  color: white;
+  padding: 3px 8px;
+  word-break: break-all;
+  max-width: 500px;
+}
