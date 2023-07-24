@@ -93,7 +93,7 @@ function Login() {
             setPassword('guestpassword123')
           }}
         >
-          Log in as a guest
+          Guest account
         </button>
       </div>
 

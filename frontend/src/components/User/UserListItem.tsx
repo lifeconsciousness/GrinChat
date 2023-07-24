@@ -17,7 +17,7 @@ const UserListItem = ({ user, handleFunction, chatListWidth, isSearching }: Prop
   const [sidebarWidth, setsidebarWidth] = useState<Number>()
   const [nameWidth, setNameWidth] = useState<Number>()
   const sidebarCutoff = screen.width <= 520 ? 500 : 145
-  const nameCutoff = -160
+  const nameCutoff = -170
 
   useEffect(() => {
     const userInfo = localStorage.getItem('userInfo')
@@ -82,7 +82,7 @@ const UserListItem = ({ user, handleFunction, chatListWidth, isSearching }: Prop
             >
               {user.latestMessage.content}
             </p>
-            <span style={{ opacity: '0', zIndex: '-100', position: 'relative' }}>
+            <span style={{ opacity: '0', zIndex: '-100', position: 'relative', wordBreak: 'keep-all' }}>
               placeholderplaceholderplaceholderplaceholderplaceholderplaceholderplaceholderplaceholderplaceholderplaceholderplaceholderplaceholderplaceholderplaceholderplaceholder
             </span>
           </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { ChatState } from '../context/ChatProvider'
 import { Avatar, Box, FormControl, Input, Menu, MenuButton, Spinner, useToast } from '@chakra-ui/react'
 import { ArrowBackIcon } from '@chakra-ui/icons'
@@ -155,7 +155,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: Props) => {
           config
         )
 
-        console.log(data)
+        // console.log(data)
         setFetchAgain(!fetchAgain)
 
         socket.emit('new message', data)
