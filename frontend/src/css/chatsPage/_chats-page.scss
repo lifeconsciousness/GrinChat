@@ -399,11 +399,12 @@
 .messages {
   padding: 10px;
   padding-top: 15px;
-  display: flex;
-  flex-direction: column;
-  overflow-y: scroll;
-  scrollbar-width: none;
+  // display: flex;
+  // flex-direction: column;
+  // overflow-y: scroll;
+  // scrollbar-width: none;
   color: rgb(109, 104, 104);
+  max-height: calc(100vh - 120px);
 }
 
 .message {
