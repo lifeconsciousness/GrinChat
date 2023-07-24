@@ -156,6 +156,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: Props) => {
         )
 
         console.log(data)
+        setFetchAgain(!fetchAgain)
 
         socket.emit('new message', data)
         setMessages([...messages, data])

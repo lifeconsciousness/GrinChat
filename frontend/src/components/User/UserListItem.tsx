@@ -62,20 +62,25 @@ const UserListItem = ({ user, handleFunction, chatListWidth, isSearching }: Prop
             >
               {!user?.isGroupChat ? getSender(loggedUser, user, isSearching) : user?.chatName}
             </p>
-            <p style={{ opacity: 0.3, fontSize: '70%' }}>13:20</p>
-          </div>
-          <div style={{ display: 'flex', fontSize: '80%' }}>
-            <p className="sender" style={{ opacity: 0.7 }}>
-              Senderrrrrrrrrrr:
+            <p style={{ opacity: 0, fontSize: '70%' }}>13:20</p>
+            <p style={{ opacity: 0.3, fontSize: '70%', position: 'absolute', right: '8px' }}>
+              {user.latestMessage.updatedAt.slice(11, 16)}
             </p>
+          </div>
+
+          <div style={{ display: 'flex', fontSize: '90%' }}>
+            <p className="sender" style={{ opacity: 0.7 }}>
+              {user.latestMessage.sender.name}
+            </p>
+            <p style={{ transform: 'translate(-8px, -1px)' }}>:</p>
             <p
               style={{
-                opacity: 0.3,
-                maxWidth: `${screen.width <= 520 ? screen.width - 130 : sidebarWidth}px`,
+                opacity: 0.4,
+                maxWidth: `${screen.width <= 520 ? screen.width - 130 : Number(sidebarWidth) - 25}px`,
               }}
               className="latest-message"
             >
-              Latest message Latest messageLatest messageLatest messageLatest messageLatest messageLatest message
+              {user.latestMessage.content}
             </p>
           </div>
         </div>

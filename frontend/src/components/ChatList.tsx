@@ -32,6 +32,7 @@ const ChatList = ({ boxWidth, fetchAgain }: Props) => {
       }
 
       const { data } = await axios.get(`/api/chats`, config)
+      console.log(data)
 
       setChats(data)
     } catch (error) {
