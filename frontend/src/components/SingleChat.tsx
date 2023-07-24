@@ -19,8 +19,8 @@ type Props = {
 type Message = {}
 
 //change to website URL
-const ENDPOINT = 'https://grinchat-production.up.railway.app'
-// const ENDPOINT = 'http://localhost:5173/'
+// const ENDPOINT = 'https://grinchat-production.up.railway.app'
+const ENDPOINT = 'http://localhost:5173/'
 let socket, selectedChatCompare
 
 const SingleChat = ({ fetchAgain, setFetchAgain }: Props) => {
@@ -251,7 +251,13 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: Props) => {
               paddingRight="10px"
               paddingLeft="11px"
             >
-              <Input borderRadius={0} onChange={typingHandler} value={newMessage} autoComplete="off"></Input>
+              <Input
+                borderRadius={0}
+                onChange={typingHandler}
+                value={newMessage}
+                autoComplete="off"
+                inputMode="text"
+              ></Input>
               <img className="send-icon" src={SendIcon} alt="send" onClick={sendMessage} />
             </FormControl>
           </div>

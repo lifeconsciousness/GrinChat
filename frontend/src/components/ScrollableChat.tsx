@@ -42,6 +42,9 @@ const ScrollableChat = ({ messages }: Props) => {
               }}
             >
               {message.content}
+              <span style={{ opacity: '0.3', fontSize: '54%', alignSelf: 'flex-end' }}>
+                {message.createdAt.slice(11, 16)}
+              </span>
             </span>
           </div>
         ))}

@@ -423,9 +423,8 @@
   }
 
   @media (max-width: 520px) {
-    // padding-top: 10px !important;
     max-height: calc(100vh - 100px);
-    max-height: calc(100svh - 100px);
+    max-height: calc(100svh - 110px);
   }
 }
 
@@ -436,4 +435,7 @@
   word-break: break-all;
   max-width: 500px;
   margin-right: 10px;
+
+  display: flex;
+  flex-direction: column;
 }
