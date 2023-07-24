@@ -20,6 +20,7 @@ type Message = {}
 
 //change to website URL
 const ENDPOINT = 'https://grinchat-production.up.railway.app'
+// const ENDPOINT = 'http://localhost:5173/'
 let socket, selectedChatCompare
 
 const SingleChat = ({ fetchAgain, setFetchAgain }: Props) => {
@@ -30,6 +31,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: Props) => {
   const [loading, setLoading] = useState(false)
   const [newMessage, setNewMessage] = useState('')
   const [socketConnected, setSocketConnected] = useState(false)
+  const [hasScrollbar, setHasScrollbar] = useState(false)
 
   useEffect(() => {
     console.log(selectedChat)
@@ -51,6 +53,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: Props) => {
     socket.on('connection', () => {
       setSocketConnected(true)
     })
+
+    //check if there's an overflow
   }, [])
 
   useEffect(() => {
@@ -61,7 +65,41 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: Props) => {
         setMessages([...messages, newMessageReceived])
       }
     })
+
+    //check if there's overflow in messages list and changing padding top
+
+    const messagesElement = document.querySelector('.messages') as HTMLElement
+    let firstChildDiv
+    if (messagesElement) {
+      firstChildDiv = messagesElement.querySelector('div:first-child')
+
+      if (hasScrollBar(firstChildDiv)) {
+        setHasScrollbar(true)
+      } else {
+        setHasScrollbar(false)
+      }
+    }
   })
+
+  const hasScrollBar = (element) => {
+    if (element) {
+      const { scrollTop } = element
+
+      if (scrollTop > 0) {
+        return true
+      }
+
+      element.scrollTop += 10
+
+      if (scrollTop === element.scrollTop) {
+        return false
+      }
+
+      // undoing the change
+      element.scrollTop = scrollTop
+      return true
+    }
+  }
 
   useEffect(() => {
     fetchMessages()
@@ -200,7 +238,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: Props) => {
                 <Spinner alignSelf="center" margin="auto" />
               </Box>
             ) : (
-              <div className="messages">{<ScrollableChat messages={messages} />}</div>
+              <div className="messages" style={{ paddingTop: `${hasScrollbar ? '0' : '10px'}` }}>
+                {<ScrollableChat messages={messages} />}
+              </div>
             )}
 
             <FormControl
