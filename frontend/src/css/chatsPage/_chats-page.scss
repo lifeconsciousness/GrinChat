@@ -399,12 +399,28 @@
 .messages {
   padding: 10px;
   padding-top: 15px;
-  // display: flex;
-  // flex-direction: column;
-  // overflow-y: scroll;
-  // scrollbar-width: none;
+  padding-top: 0px;
+  padding-right: 0;
   color: rgb(109, 104, 104);
-  max-height: calc(100vh - 120px);
+  max-height: calc(100vh - 107px);
+
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #f1f1f100;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #343535;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+  @media (max-width: 520px) {
+    padding-top: 0;
+    max-height: calc(100vh - 100px);
+  }
 }
 
 .message {
@@ -413,4 +429,8 @@
   padding: 3px 8px;
   word-break: break-all;
   max-width: 500px;
+  margin-right: 10px;
+}
+.message:last-child {
+  // margin-bottom: 15px;
 }
