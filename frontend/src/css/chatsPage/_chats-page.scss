@@ -214,6 +214,7 @@
 
 .logout-drawer {
   @include black-white-button;
+  padding: 3px 7px;
 }
 
 .apply-button {
@@ -409,6 +410,9 @@
   max-height: calc(100vh - 107px);
   max-height: calc(100svh - 107px);
 
+  position: relative;
+  z-index: 100;
+
   ::-webkit-scrollbar {
     width: 5px;
   }
@@ -438,4 +442,13 @@
 
   display: flex;
   flex-direction: column;
+}
+
+.unselectable {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
 }

@@ -16,7 +16,10 @@ const ScrollableChat = ({ messages }: Props) => {
       {messages &&
         messages.map((message, index) => (
           <div
-            style={{ display: 'flex', marginBottom: `${isSameSender(messages, message, index, user._id) && '3px'}` }}
+            style={{
+              display: 'flex',
+              marginBottom: `${isSameSender(messages, message, index, user._id) && '3px'}`,
+            }}
             key={message._id}
           >
             {(isSameSender(messages, message, index, user._id) || isLastMessage(messages, index, user._id)) && (
@@ -42,7 +45,7 @@ const ScrollableChat = ({ messages }: Props) => {
               }}
             >
               {message.content}
-              <span style={{ opacity: '0.3', fontSize: '54%', alignSelf: 'flex-end' }}>
+              <span style={{ opacity: '0.3', fontSize: '54%', alignSelf: 'flex-end' }} className="unselectable">
                 {message.createdAt.slice(11, 16)}
               </span>
             </span>

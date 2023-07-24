@@ -75,12 +75,16 @@ const SideDrawer = ({ user }: Props) => {
 
             <Divider marginBottom="10px" />
 
+            <ProfileModal user={user}>
+              <button className="logout-drawer">My profile</button>
+            </ProfileModal>
+
             <GroupChatModal>
               <button className="logout-drawer">New group chat</button>
             </GroupChatModal>
 
             <div className="logout-and-rest">
-              <p>Last button in the list</p>
+              <p style={{ opacity: '0' }}>placeholder</p>
               <button className="logout-drawer" onClick={logout}>
                 Log out
               </button>

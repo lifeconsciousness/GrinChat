@@ -76,12 +76,15 @@ const UserListItem = ({ user, handleFunction, chatListWidth, isSearching }: Prop
             <p
               style={{
                 opacity: 0.4,
-                maxWidth: `${screen.width <= 520 ? screen.width - 130 : Number(sidebarWidth) - 25}px`,
+                maxWidth: `${screen.width <= 520 ? screen.width - 130 : Number(sidebarWidth) - 20}px`,
               }}
               className="latest-message"
             >
               {user.latestMessage.content}
             </p>
+            <span style={{ opacity: '0', zIndex: '-100', position: 'relative' }}>
+              placeholderplaceholderplaceholderplaceholderplaceholderplaceholderplaceholderplaceholderplaceholderplaceholderplaceholderplaceholderplaceholderplaceholderplaceholder
+            </span>
           </div>
         </div>
       </div>
