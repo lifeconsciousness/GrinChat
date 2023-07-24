@@ -378,7 +378,7 @@
   display: flex;
   // position: sticky;
   position: absolute;
-  // bottom: 100px;
+  bottom: 0;
 }
 
 .send-icon {
@@ -407,6 +407,7 @@
   padding-right: 0;
   color: rgb(109, 104, 104);
   max-height: calc(100vh - 107px);
+  max-height: calc(100svh - 107px);
 
   ::-webkit-scrollbar {
     width: 5px;
@@ -424,6 +425,7 @@
   @media (max-width: 520px) {
     // padding-top: 10px !important;
     max-height: calc(100vh - 100px);
+    max-height: calc(100svh - 100px);
   }
 }
 
