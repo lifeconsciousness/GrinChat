@@ -371,10 +371,14 @@
   flex-direction: column;
   height: 100%;
   justify-content: space-between;
+  overflow: hidden;
 }
 
 .input-and-send {
   display: flex;
+  // position: sticky;
+  position: absolute;
+  // bottom: 100px;
 }
 
 .send-icon {
@@ -400,7 +404,6 @@
 
 .messages {
   padding: 10px;
-  // padding-top: 0px;
   padding-right: 0;
   color: rgb(109, 104, 104);
   max-height: calc(100vh - 107px);
@@ -419,7 +422,7 @@
   }
 
   @media (max-width: 520px) {
-    padding-top: 0;
+    // padding-top: 10px !important;
     max-height: calc(100vh - 100px);
   }
 }
