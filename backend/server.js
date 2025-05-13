@@ -47,7 +47,7 @@ const io = require('socket.io')(server, {
   pingTimeout: 60000,
   cors: {
     origin: `${
-      process.env.NODE_ENV === 'production' ? 'https://grinchat-production.up.railway.app' : `http://localhost:${process.env.PORT}`
+      process.env.NODE_ENV === 'production' ? 'https://grinchat.onrender.com/' : `http://localhost:${process.env.PORT}`
     } `,
   },
 })
