@@ -53,7 +53,7 @@ const ChatList = ({ boxWidth, fetchAgain }: Props) => {
   return (
     <div>
       {chats.length === 0 ? (
-        <div>Loading chats...</div>
+        <div>No chats are here yet</div>
       ) : (
         chats.map((chat) => (
           <div

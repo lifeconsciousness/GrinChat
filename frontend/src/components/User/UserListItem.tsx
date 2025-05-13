@@ -64,13 +64,13 @@ const UserListItem = ({ user, handleFunction, chatListWidth, isSearching }: Prop
             </p>
             <p style={{ opacity: 0, fontSize: '70%' }}>13:20</p>
             <p style={{ opacity: 0.3, fontSize: '70%', position: 'absolute', right: '8px' }}>
-              {user.latestMessage.updatedAt.slice(11, 16)}
+              {user?.latestMessage?.updatedAt.slice(11, 16)}
             </p>
           </div>
 
           <div style={{ display: 'flex', fontSize: '90%' }}>
             <p className="sender" style={{ opacity: 0.7 }}>
-              {user.latestMessage.sender.name}
+              {user?.latestMessage?.sender?.name}
             </p>
             <p style={{ transform: 'translate(-8px, -1px)' }}>:</p>
             <p
@@ -80,7 +80,7 @@ const UserListItem = ({ user, handleFunction, chatListWidth, isSearching }: Prop
               }}
               className="latest-message"
             >
-              {user.latestMessage.content}
+              {user?.latestMessage?.content}
             </p>
             <span style={{ opacity: '0', zIndex: '-100', position: 'relative', wordBreak: 'keep-all' }}>
               placeholderplaceholderplaceholderplaceholderplaceholderplaceholderplaceholderplaceholderplaceholderplaceholderplaceholderplaceholderplaceholderplaceholderplaceholder

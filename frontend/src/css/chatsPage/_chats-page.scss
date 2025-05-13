@@ -13,6 +13,7 @@
 
 .navigation-panel {
   width: 100%;
+  z-index: 1000;
 
   .options {
     // border-bottom: 2px solid white;
@@ -170,6 +171,7 @@
   display: flex;
   align-items: center;
   gap: 5px;
+  z-index: 10;
   // width: 100%;
 }
 

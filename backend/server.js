@@ -37,7 +37,7 @@ if (process.env.NODE_ENV === 'production') {
   })
 }
 
-const PORT = process.env.PORT || 7000
+const PORT = process.env.PORT || 6000
 
 const server = app.listen(PORT, console.log(`Server stared on PORT ${PORT}`.yellow.bold))
 
@@ -47,7 +47,7 @@ const io = require('socket.io')(server, {
   pingTimeout: 60000,
   cors: {
     origin: `${
-      process.env.NODE_ENV === 'production' ? 'https://grinchat-production.up.railway.app' : 'http://localhost:7000'
+      process.env.NODE_ENV === 'production' ? 'https://grinchat-production.up.railway.app' : `http://localhost:${process.env.PORT}`
     } `,
   },
 })
