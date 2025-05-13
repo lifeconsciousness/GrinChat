@@ -6,6 +6,7 @@ const colors = require('colors')
 const userRoutes = require('./routes/userRoutes')
 const chatRoutes = require('./routes/chatRoutes')
 const messageRoutes = require('./routes/messageRoutes')
+const cron = require('node-cron')
 const { notFound, errorHandler } = require('./middlewares/errorMiddleware')
 const path = require('path')
 
@@ -41,13 +42,24 @@ const PORT = process.env.PORT || 6000
 
 const server = app.listen(PORT, console.log(`Server stared on PORT ${PORT}`.yellow.bold))
 
+
+function pingServer() {
+  const serverUrl = 'https://grinchat-8yvp.onrender.com'
+
+  axios.get(serverUrl).catch((error) => {
+    console.error('Error pinging server:', error)
+  })
+}
+
+cron.schedule('*/10 * * * *', pingServer)
+
 //socket.io
 
 const io = require('socket.io')(server, {
   pingTimeout: 60000,
   cors: {
     origin: `${
-      process.env.NODE_ENV === 'production' ? 'https://grinchat.onrender.com/' : `http://localhost:${process.env.PORT}`
+      process.env.NODE_ENV === 'production' ? 'https://grinchat-8yvp.onrender.com' : `http://localhost:${process.env.PORT}`
     } `,
   },
 })
