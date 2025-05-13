@@ -7,6 +7,7 @@ const userRoutes = require('./routes/userRoutes')
 const chatRoutes = require('./routes/chatRoutes')
 const messageRoutes = require('./routes/messageRoutes')
 const cron = require('node-cron')
+const axios = require('axios')
 const { notFound, errorHandler } = require('./middlewares/errorMiddleware')
 const path = require('path')
 
