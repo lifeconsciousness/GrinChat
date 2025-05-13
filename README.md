@@ -19,7 +19,7 @@ GrinChat is a full-stack real-time chat application that enables users to connec
 
 ## 🚀 Live Demo
 
-Check out the live version: [GrinChat](https://grinchat-production.up.railway.app/)
+Check out the live version: [GrinChat](https://grinchat-8yvp.onrender.com/chats)
 
 ## 💻 Local Development
 
