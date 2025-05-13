@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { FormControl, InputGroup, Input, InputRightElement } from '@chakra-ui/react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
@@ -7,6 +7,7 @@ import ErrorDisplay from './ErrorDisplay'
 function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [isGuestLogin, setIsGuestLogin] = useState(false)
   const navigate = useNavigate()
 
   //show password button
@@ -44,6 +45,13 @@ function Login() {
       sendErrorText(err.response.data.message)
     }
   }
+
+  useEffect(() => {
+    if (isGuestLogin && email === 'guest@email.com' && password === 'guestpassword123') {
+      handleLogin()
+      setIsGuestLogin(false)
+    }
+  }, [email, password, isGuestLogin])
 
   return (
     <div className="signup-login-form">
@@ -89,6 +97,7 @@ function Login() {
         <button
           type="button"
           onClick={() => {
+            setIsGuestLogin(true)
             setEmail('guest@email.com')
             setPassword('guestpassword123')
           }}

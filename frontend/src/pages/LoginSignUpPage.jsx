@@ -28,7 +28,8 @@ const Homepage = () => {
             position="relative"
             variant="unstyled"
             isFitted
-            defaultIndex={localStorage.getItem('isSignedUp') === 'true' ? 1 : 0}
+            // defaultIndex={localStorage.getItem('isSignedUp') === 'true' ? 1 : 0}
+            defaultIndex={1}
           >
             <TabList>
               <Tab>Sign up</Tab>

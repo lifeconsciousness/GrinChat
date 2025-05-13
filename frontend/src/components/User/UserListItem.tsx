@@ -72,7 +72,7 @@ const UserListItem = ({ user, handleFunction, chatListWidth, isSearching }: Prop
             <p className="sender" style={{ opacity: 0.7 }}>
               {user?.latestMessage?.sender?.name}
             </p>
-            <p style={{ transform: 'translate(-8px, -1px)' }}>:</p>
+            <p style={{ transform: 'translate(0px, -1px)', marginLeft: 2, marginRight: 2}}>:</p>
             <p
               style={{
                 opacity: 0.4,
