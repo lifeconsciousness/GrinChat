@@ -44,7 +44,7 @@ const UserListItem = ({ user, handleFunction, chatListWidth, isSearching }: Prop
         <Avatar
           size="md"
           name={user?.name}
-          src={isSearching ? user?.users[1]?.picture : user?.picture}
+          src={isSearching ? user?.users[0]?.picture : user?.picture}
           className="avatar"
           userSelect="none"
         />
