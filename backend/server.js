@@ -21,25 +21,24 @@ app.use('/api/user', userRoutes)
 app.use('/api/chats', chatRoutes)
 app.use('/api/message', messageRoutes)
 
-// app.use(notFound)
-// app.use(errorHandler)
-
 //deployment
-
 const __dirname1 = path.resolve()
+
 if (process.env.NODE_ENV === 'production') {
-  // app.use(express.static(path.join(__dirname1,  '/dist')))
-
   const distPath = path.join(__dirname, '..', 'dist')
-
   app.use(express.static(distPath))
-
+  
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname1, 'dist', 'index.html'))
+    res.sendFile(path.join(distPath, 'index.html'))
   })
 } else {
-  app.get('/', (req, res) => {
-    res.send('API is running')
+  // In development, forward all non-API routes to the frontend dev server
+  app.get('*', (req, res) => {
+    if (!req.path.startsWith('/api')) {
+      res.redirect('http://localhost:5173' + req.path)
+    } else {
+      res.status(404).send('API route not found')
+    }
   })
 }
 
