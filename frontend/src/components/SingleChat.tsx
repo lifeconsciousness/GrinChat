@@ -5,7 +5,6 @@ import { ArrowBackIcon } from '@chakra-ui/icons'
 import { getSender, getSenderFull } from './config/ChatLogic'
 import ProfileModal from './misc/ProfileModal'
 import UpdateGroupModal from './misc/UpdateGroupModal'
-import { sendMessage } from '../../../backend/controllers/messageControllers'
 import axios from 'axios'
 import SendIcon from '/images/send.png'
 import ScrollableChat from './ScrollableChat'
@@ -18,10 +17,10 @@ type Props = {
 
 type Message = {}
 
-//change to website URL
-// const ENDPOINT = 'https://grinchat-production.up.railway.app'
-const ENDPOINT = 'http://localhost:5173/'
-let socket, selectedChatCompare
+// const ENDPOINT = 'http://localhost:5173'; // Changed to backend port
+const ENDPOINT = 'https://grinchat-8yvp.onrender.com'; // Changed to backend port
+const socket = io(ENDPOINT);
+let selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }: Props) => {
   const { user, setUser, selectedChat, setSelectedChat, loggedUser, isSearching, selectedUser } = ChatState()
@@ -34,72 +33,36 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: Props) => {
   const [hasScrollbar, setHasScrollbar] = useState(false)
 
   useEffect(() => {
-    console.log(selectedChat)
-
-    selectedChatCompare = selectedChat
-  }, [selectedChat])
+    selectedChatCompare = selectedChat;
+  }, [selectedChat]);
 
   useEffect(() => {
-    const userInfoString = localStorage.getItem('userInfo')
+    const userInfoString = localStorage.getItem('userInfo');
+    let userFromStorage = userInfoString ? JSON.parse(userInfoString) : null;
 
-    let userFromStorage
-    if (userInfoString !== null) {
-      userFromStorage = JSON.parse(userInfoString)
-    }
-    console.log('User ' + userFromStorage)
+    socket.emit('setup', userFromStorage);
+    socket.on('connected', () => setSocketConnected(true));
 
-    socket = io(ENDPOINT)
-    socket.emit('setup', userFromStorage)
-    socket.on('connection', () => {
-      setSocketConnected(true)
-    })
-
-    //check if there's an overflow
-  }, [])
+    return () => {
+      socket.off('connected');
+    };
+  }, []);
 
   useEffect(() => {
-    socket.on('message received', (newMessageReceived) => {
+    const handleMessageReceived = (newMessageReceived) => {
       if (!selectedChatCompare || selectedChatCompare._id !== newMessageReceived.chat._id) {
-        //notification
+        // Handle notification
       } else {
-        setMessages([...messages, newMessageReceived])
+        setMessages(prevMessages => [...prevMessages, newMessageReceived]);
       }
-    })
+    };
 
-    //check if there's overflow in messages list and changing padding top
+    socket.on('message received', handleMessageReceived);
 
-    const messagesElement = document.querySelector('.messages') as HTMLElement
-    let firstChildDiv
-    if (messagesElement) {
-      firstChildDiv = messagesElement.querySelector('div:first-child')
-
-      if (hasScrollBar(firstChildDiv)) {
-        setHasScrollbar(true)
-      } else {
-        setHasScrollbar(false)
-      }
-    }
-  })
-
-  const hasScrollBar = (element) => {
-    if (element) {
-      const { scrollTop } = element
-
-      if (scrollTop > 0) {
-        return true
-      }
-
-      element.scrollTop += 10
-
-      if (scrollTop === element.scrollTop) {
-        return false
-      }
-
-      // undoing the change
-      element.scrollTop = scrollTop
-      return true
-    }
-  }
+    return () => {
+      socket.off('message received', handleMessageReceived);
+    };
+  }, [selectedChat]);
 
   useEffect(() => {
     fetchMessages()
@@ -143,9 +106,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: Props) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${user.token}`,
           },
-        }
+        };
 
-        setNewMessage('')
         const { data } = await axios.post(
           '/api/message',
           {
@@ -153,13 +115,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: Props) => {
             chatId: selectedChat._id,
           },
           config
-        )
+        );
 
-        // console.log(data)
-        setFetchAgain(!fetchAgain)
-
-        socket.emit('new message', data)
-        setMessages([...messages, data])
+        socket.emit('new message', data);
+        setMessages(prevMessages => [...prevMessages, data]);
+        setNewMessage('');
+        setFetchAgain(!fetchAgain);
       } catch (error) {
         toast({
           title: 'Error',
@@ -175,6 +136,26 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: Props) => {
 
   const typingHandler = (e) => {
     setNewMessage(e.target.value)
+  }
+
+  const hasScrollBar = (element) => {
+    if (element) {
+      const { scrollTop } = element
+
+      if (scrollTop > 0) {
+        return true
+      }
+
+      element.scrollTop += 10
+
+      if (scrollTop === element.scrollTop) {
+        return false
+      }
+
+      // undoing the change
+      element.scrollTop = scrollTop
+      return true
+    }
   }
 
   return (
