@@ -14,6 +14,7 @@
 .navigation-panel {
   width: 100%;
   z-index: 1000;
+  // position: fixed;
 
   .options {
     // border-bottom: 2px solid white;
@@ -83,7 +84,7 @@
   right: -3px; /* Adjust the value as needed */
   width: 4px;
   height: 100%;
-  z-index: 200;
+  z-index: 10000;
   // background-color: rgba(25, 208, 249, 0.5);
 
   background: linear-gradient(124deg, #ff2400, #e81d1d, #e8b71d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3);
@@ -121,6 +122,9 @@
 
 .chats {
   user-select: none;
+  overflow-x: hidden;
+  overflow-y: scroll !important;
+  height: 100%;
 }
 
 .personal-chat-in-list {
