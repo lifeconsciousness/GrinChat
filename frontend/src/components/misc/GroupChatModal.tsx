@@ -57,7 +57,7 @@ const GroupChatModal = ({ children }: Props) => {
 
       const { data } = await axios.get(`/api/user?search=${search}`, config)
 
-      console.log(data)
+      // console.log(data)
       setLoading(false)
       setSearchResult(data)
     } catch (error) {
@@ -99,7 +99,7 @@ const GroupChatModal = ({ children }: Props) => {
   }
 
   useEffect(() => {
-    console.log(chats)
+    // console.log(chats)
 
     const userInfo = localStorage.getItem('userInfo')
     if (userInfo) {

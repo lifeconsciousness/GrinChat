@@ -82,7 +82,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }: Props) => {
       const { data } = await axios.get(`/api/message/${selectedChat._id}`, config)
 
       setMessages(data)
-      console.log(messages)
+      // console.log(messages)
       setLoading(false)
 
       socket.emit('join chat', selectedChat._id)

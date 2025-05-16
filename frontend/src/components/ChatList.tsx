@@ -32,7 +32,7 @@ const ChatList = ({ boxWidth, fetchAgain }: Props) => {
       }
 
       const { data } = await axios.get(`/api/chats`, config)
-      console.log(data)
+      // console.log(data)
 
       setChats(data)
     } catch (error) {
@@ -41,7 +41,7 @@ const ChatList = ({ boxWidth, fetchAgain }: Props) => {
   }
 
   useEffect(() => {
-    console.log(chats)
+    // console.log(chats)
 
     const userInfo = localStorage.getItem('userInfo')
     if (userInfo) {
@@ -53,7 +53,7 @@ const ChatList = ({ boxWidth, fetchAgain }: Props) => {
   return (
     <div>
       {chats.length === 0 ? (
-        <div>No chats are here yet</div>
+        <div>Your chats will be here</div>
       ) : (
         chats.map((chat) => (
           <div

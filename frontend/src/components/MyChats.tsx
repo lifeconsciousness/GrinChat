@@ -149,7 +149,7 @@ const MyChats = ({ fetchAgain }: Props) => {
   }
 
   const accessChat = async (userId: string) => {
-    console.log(user._id)
+    // console.log(user._id)
     try {
       setloadingChat(true)
 
@@ -161,7 +161,7 @@ const MyChats = ({ fetchAgain }: Props) => {
       }
 
       const { data } = await axios.post('/api/chats', { userId }, config)
-      console.log(data)
+      // console.log(data)
 
       if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats])
 
